@@ -79,3 +79,5 @@ Apache-2.0
 ```console
 Copyright (c) 2018 Thomas Boerger <thomas@webhippie.de>
 ```
+
+[golang]: http://golang.org/doc/install.html

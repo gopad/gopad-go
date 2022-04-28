@@ -13,56 +13,69 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewRefreshAuthParams creates a new RefreshAuthParams object
-// with the default values initialized.
+// NewRefreshAuthParams creates a new RefreshAuthParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRefreshAuthParams() *RefreshAuthParams {
-
 	return &RefreshAuthParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewRefreshAuthParamsWithTimeout creates a new RefreshAuthParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewRefreshAuthParamsWithTimeout(timeout time.Duration) *RefreshAuthParams {
-
 	return &RefreshAuthParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewRefreshAuthParamsWithContext creates a new RefreshAuthParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewRefreshAuthParamsWithContext(ctx context.Context) *RefreshAuthParams {
-
 	return &RefreshAuthParams{
-
 		Context: ctx,
 	}
 }
 
 // NewRefreshAuthParamsWithHTTPClient creates a new RefreshAuthParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewRefreshAuthParamsWithHTTPClient(client *http.Client) *RefreshAuthParams {
-
 	return &RefreshAuthParams{
 		HTTPClient: client,
 	}
 }
 
-/*RefreshAuthParams contains all the parameters to send to the API endpoint
-for the refresh auth operation typically these are written to a http.Request
+/* RefreshAuthParams contains all the parameters to send to the API endpoint
+   for the refresh auth operation.
+
+   Typically these are written to a http.Request.
 */
 type RefreshAuthParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the refresh auth params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RefreshAuthParams) WithDefaults() *RefreshAuthParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the refresh auth params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *RefreshAuthParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the refresh auth params

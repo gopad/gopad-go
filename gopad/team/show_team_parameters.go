@@ -13,63 +13,76 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewShowTeamParams creates a new ShowTeamParams object
-// with the default values initialized.
+// NewShowTeamParams creates a new ShowTeamParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewShowTeamParams() *ShowTeamParams {
-	var ()
 	return &ShowTeamParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewShowTeamParamsWithTimeout creates a new ShowTeamParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewShowTeamParamsWithTimeout(timeout time.Duration) *ShowTeamParams {
-	var ()
 	return &ShowTeamParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewShowTeamParamsWithContext creates a new ShowTeamParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewShowTeamParamsWithContext(ctx context.Context) *ShowTeamParams {
-	var ()
 	return &ShowTeamParams{
-
 		Context: ctx,
 	}
 }
 
 // NewShowTeamParamsWithHTTPClient creates a new ShowTeamParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewShowTeamParamsWithHTTPClient(client *http.Client) *ShowTeamParams {
-	var ()
 	return &ShowTeamParams{
 		HTTPClient: client,
 	}
 }
 
-/*ShowTeamParams contains all the parameters to send to the API endpoint
-for the show team operation typically these are written to a http.Request
+/* ShowTeamParams contains all the parameters to send to the API endpoint
+   for the show team operation.
+
+   Typically these are written to a http.Request.
 */
 type ShowTeamParams struct {
 
-	/*TeamID
-	  A team UUID or slug
+	/* TeamID.
 
+	   A team UUID or slug
 	*/
 	TeamID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the show team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ShowTeamParams) WithDefaults() *ShowTeamParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the show team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ShowTeamParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the show team params

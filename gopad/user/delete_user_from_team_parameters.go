@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
-// NewDeleteUserFromTeamParams creates a new DeleteUserFromTeamParams object
-// with the default values initialized.
+// NewDeleteUserFromTeamParams creates a new DeleteUserFromTeamParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteUserFromTeamParams() *DeleteUserFromTeamParams {
-	var ()
 	return &DeleteUserFromTeamParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDeleteUserFromTeamParamsWithTimeout creates a new DeleteUserFromTeamParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDeleteUserFromTeamParamsWithTimeout(timeout time.Duration) *DeleteUserFromTeamParams {
-	var ()
 	return &DeleteUserFromTeamParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDeleteUserFromTeamParamsWithContext creates a new DeleteUserFromTeamParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDeleteUserFromTeamParamsWithContext(ctx context.Context) *DeleteUserFromTeamParams {
-	var ()
 	return &DeleteUserFromTeamParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDeleteUserFromTeamParamsWithHTTPClient creates a new DeleteUserFromTeamParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDeleteUserFromTeamParamsWithHTTPClient(client *http.Client) *DeleteUserFromTeamParams {
-	var ()
 	return &DeleteUserFromTeamParams{
 		HTTPClient: client,
 	}
 }
 
-/*DeleteUserFromTeamParams contains all the parameters to send to the API endpoint
-for the delete user from team operation typically these are written to a http.Request
+/* DeleteUserFromTeamParams contains all the parameters to send to the API endpoint
+   for the delete user from team operation.
+
+   Typically these are written to a http.Request.
 */
 type DeleteUserFromTeamParams struct {
 
-	/*UserID
-	  A user UUID or slug
+	/* UserID.
 
+	   A user UUID or slug
 	*/
 	UserID string
-	/*UserTeam
-	  The user team data to delete
 
+	/* UserTeam.
+
+	   The user team data to delete
 	*/
 	UserTeam *models.UserTeamParams
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the delete user from team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteUserFromTeamParams) WithDefaults() *DeleteUserFromTeamParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the delete user from team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DeleteUserFromTeamParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the delete user from team params
@@ -146,7 +160,6 @@ func (o *DeleteUserFromTeamParams) WriteToRequest(r runtime.ClientRequest, reg s
 	if err := r.SetPathParam("user_id", o.UserID); err != nil {
 		return err
 	}
-
 	if o.UserTeam != nil {
 		if err := r.SetBodyParam(o.UserTeam); err != nil {
 			return err

@@ -13,56 +13,69 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewTokenProfileParams creates a new TokenProfileParams object
-// with the default values initialized.
+// NewTokenProfileParams creates a new TokenProfileParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewTokenProfileParams() *TokenProfileParams {
-
 	return &TokenProfileParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewTokenProfileParamsWithTimeout creates a new TokenProfileParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewTokenProfileParamsWithTimeout(timeout time.Duration) *TokenProfileParams {
-
 	return &TokenProfileParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewTokenProfileParamsWithContext creates a new TokenProfileParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewTokenProfileParamsWithContext(ctx context.Context) *TokenProfileParams {
-
 	return &TokenProfileParams{
-
 		Context: ctx,
 	}
 }
 
 // NewTokenProfileParamsWithHTTPClient creates a new TokenProfileParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewTokenProfileParamsWithHTTPClient(client *http.Client) *TokenProfileParams {
-
 	return &TokenProfileParams{
 		HTTPClient: client,
 	}
 }
 
-/*TokenProfileParams contains all the parameters to send to the API endpoint
-for the token profile operation typically these are written to a http.Request
+/* TokenProfileParams contains all the parameters to send to the API endpoint
+   for the token profile operation.
+
+   Typically these are written to a http.Request.
 */
 type TokenProfileParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the token profile params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *TokenProfileParams) WithDefaults() *TokenProfileParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the token profile params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *TokenProfileParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the token profile params

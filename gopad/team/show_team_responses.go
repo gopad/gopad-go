@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // ShowTeamReader is a Reader for the ShowTeam structure.
@@ -24,21 +23,18 @@ type ShowTeamReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ShowTeamReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewShowTeamOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewShowTeamForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewShowTeamDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -56,7 +52,7 @@ func NewShowTeamOK() *ShowTeamOK {
 	return &ShowTeamOK{}
 }
 
-/*ShowTeamOK handles this case with default header values.
+/* ShowTeamOK describes a response with status code 200, with default header values.
 
 The fetched team details
 */
@@ -66,6 +62,9 @@ type ShowTeamOK struct {
 
 func (o *ShowTeamOK) Error() string {
 	return fmt.Sprintf("[GET /teams/{team_id}][%d] showTeamOK  %+v", 200, o.Payload)
+}
+func (o *ShowTeamOK) GetPayload() *models.Team {
+	return o.Payload
 }
 
 func (o *ShowTeamOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -85,7 +84,7 @@ func NewShowTeamForbidden() *ShowTeamForbidden {
 	return &ShowTeamForbidden{}
 }
 
-/*ShowTeamForbidden handles this case with default header values.
+/* ShowTeamForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -95,6 +94,9 @@ type ShowTeamForbidden struct {
 
 func (o *ShowTeamForbidden) Error() string {
 	return fmt.Sprintf("[GET /teams/{team_id}][%d] showTeamForbidden  %+v", 403, o.Payload)
+}
+func (o *ShowTeamForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ShowTeamForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -116,7 +118,7 @@ func NewShowTeamDefault(code int) *ShowTeamDefault {
 	}
 }
 
-/*ShowTeamDefault handles this case with default header values.
+/* ShowTeamDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -133,6 +135,9 @@ func (o *ShowTeamDefault) Code() int {
 
 func (o *ShowTeamDefault) Error() string {
 	return fmt.Sprintf("[GET /teams/{team_id}][%d] ShowTeam default  %+v", o._statusCode, o.Payload)
+}
+func (o *ShowTeamDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ShowTeamDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

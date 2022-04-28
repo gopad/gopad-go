@@ -7,12 +7,11 @@ package profile
 
 import (
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new profile API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -24,16 +23,29 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
+// ClientService is the interface for Client methods
+type ClientService interface {
+	ShowProfile(params *ShowProfileParams, opts ...ClientOption) (*ShowProfileOK, error)
+
+	TokenProfile(params *TokenProfileParams, opts ...ClientOption) (*TokenProfileOK, error)
+
+	UpdateProfile(params *UpdateProfileParams, opts ...ClientOption) (*UpdateProfileOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-ShowProfile retrieves an unlimited auth token
+  ShowProfile retrieves an unlimited auth token
 */
-func (a *Client) ShowProfile(params *ShowProfileParams) (*ShowProfileOK, error) {
+func (a *Client) ShowProfile(params *ShowProfileParams, opts ...ClientOption) (*ShowProfileOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewShowProfileParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "ShowProfile",
 		Method:             "GET",
 		PathPattern:        "/profile/self",
@@ -44,24 +56,33 @@ func (a *Client) ShowProfile(params *ShowProfileParams) (*ShowProfileOK, error) 
 		Reader:             &ShowProfileReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*ShowProfileOK), nil
-
+	success, ok := result.(*ShowProfileOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ShowProfileDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
 /*
-TokenProfile retrieves an unlimited auth token
+  TokenProfile retrieves an unlimited auth token
 */
-func (a *Client) TokenProfile(params *TokenProfileParams) (*TokenProfileOK, error) {
+func (a *Client) TokenProfile(params *TokenProfileParams, opts ...ClientOption) (*TokenProfileOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewTokenProfileParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "TokenProfile",
 		Method:             "GET",
 		PathPattern:        "/profile/token",
@@ -72,24 +93,33 @@ func (a *Client) TokenProfile(params *TokenProfileParams) (*TokenProfileOK, erro
 		Reader:             &TokenProfileReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*TokenProfileOK), nil
-
+	success, ok := result.(*TokenProfileOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*TokenProfileDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
 /*
-UpdateProfile retrieves an unlimited auth token
+  UpdateProfile retrieves an unlimited auth token
 */
-func (a *Client) UpdateProfile(params *UpdateProfileParams) (*UpdateProfileOK, error) {
+func (a *Client) UpdateProfile(params *UpdateProfileParams, opts ...ClientOption) (*UpdateProfileOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateProfileParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "UpdateProfile",
 		Method:             "PUT",
 		PathPattern:        "/profile/self",
@@ -100,12 +130,22 @@ func (a *Client) UpdateProfile(params *UpdateProfileParams) (*UpdateProfileOK, e
 		Reader:             &UpdateProfileReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
-	return result.(*UpdateProfileOK), nil
-
+	success, ok := result.(*UpdateProfileOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*UpdateProfileDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
 // SetTransport changes the transport on the client

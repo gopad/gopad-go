@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // ShowUserReader is a Reader for the ShowUser structure.
@@ -24,21 +23,18 @@ type ShowUserReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ShowUserReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewShowUserOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewShowUserForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewShowUserDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -56,7 +52,7 @@ func NewShowUserOK() *ShowUserOK {
 	return &ShowUserOK{}
 }
 
-/*ShowUserOK handles this case with default header values.
+/* ShowUserOK describes a response with status code 200, with default header values.
 
 The fetched user details
 */
@@ -66,6 +62,9 @@ type ShowUserOK struct {
 
 func (o *ShowUserOK) Error() string {
 	return fmt.Sprintf("[GET /users/{user_id}][%d] showUserOK  %+v", 200, o.Payload)
+}
+func (o *ShowUserOK) GetPayload() *models.User {
+	return o.Payload
 }
 
 func (o *ShowUserOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -85,7 +84,7 @@ func NewShowUserForbidden() *ShowUserForbidden {
 	return &ShowUserForbidden{}
 }
 
-/*ShowUserForbidden handles this case with default header values.
+/* ShowUserForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -95,6 +94,9 @@ type ShowUserForbidden struct {
 
 func (o *ShowUserForbidden) Error() string {
 	return fmt.Sprintf("[GET /users/{user_id}][%d] showUserForbidden  %+v", 403, o.Payload)
+}
+func (o *ShowUserForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ShowUserForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -116,7 +118,7 @@ func NewShowUserDefault(code int) *ShowUserDefault {
 	}
 }
 
-/*ShowUserDefault handles this case with default header values.
+/* ShowUserDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -133,6 +135,9 @@ func (o *ShowUserDefault) Code() int {
 
 func (o *ShowUserDefault) Error() string {
 	return fmt.Sprintf("[GET /users/{user_id}][%d] ShowUser default  %+v", o._statusCode, o.Payload)
+}
+func (o *ShowUserDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ShowUserDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

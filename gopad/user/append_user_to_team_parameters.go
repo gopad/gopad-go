@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
-// NewAppendUserToTeamParams creates a new AppendUserToTeamParams object
-// with the default values initialized.
+// NewAppendUserToTeamParams creates a new AppendUserToTeamParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAppendUserToTeamParams() *AppendUserToTeamParams {
-	var ()
 	return &AppendUserToTeamParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewAppendUserToTeamParamsWithTimeout creates a new AppendUserToTeamParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewAppendUserToTeamParamsWithTimeout(timeout time.Duration) *AppendUserToTeamParams {
-	var ()
 	return &AppendUserToTeamParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewAppendUserToTeamParamsWithContext creates a new AppendUserToTeamParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewAppendUserToTeamParamsWithContext(ctx context.Context) *AppendUserToTeamParams {
-	var ()
 	return &AppendUserToTeamParams{
-
 		Context: ctx,
 	}
 }
 
 // NewAppendUserToTeamParamsWithHTTPClient creates a new AppendUserToTeamParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewAppendUserToTeamParamsWithHTTPClient(client *http.Client) *AppendUserToTeamParams {
-	var ()
 	return &AppendUserToTeamParams{
 		HTTPClient: client,
 	}
 }
 
-/*AppendUserToTeamParams contains all the parameters to send to the API endpoint
-for the append user to team operation typically these are written to a http.Request
+/* AppendUserToTeamParams contains all the parameters to send to the API endpoint
+   for the append user to team operation.
+
+   Typically these are written to a http.Request.
 */
 type AppendUserToTeamParams struct {
 
-	/*UserID
-	  A user UUID or slug
+	/* UserID.
 
+	   A user UUID or slug
 	*/
 	UserID string
-	/*UserTeam
-	  The user team data to assign
 
+	/* UserTeam.
+
+	   The user team data to assign
 	*/
 	UserTeam *models.UserTeamParams
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the append user to team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AppendUserToTeamParams) WithDefaults() *AppendUserToTeamParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the append user to team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *AppendUserToTeamParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the append user to team params
@@ -146,7 +160,6 @@ func (o *AppendUserToTeamParams) WriteToRequest(r runtime.ClientRequest, reg str
 	if err := r.SetPathParam("user_id", o.UserID); err != nil {
 		return err
 	}
-
 	if o.UserTeam != nil {
 		if err := r.SetBodyParam(o.UserTeam); err != nil {
 			return err

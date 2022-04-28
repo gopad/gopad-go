@@ -13,65 +13,78 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
-// NewCreateTeamParams creates a new CreateTeamParams object
-// with the default values initialized.
+// NewCreateTeamParams creates a new CreateTeamParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateTeamParams() *CreateTeamParams {
-	var ()
 	return &CreateTeamParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewCreateTeamParamsWithTimeout creates a new CreateTeamParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewCreateTeamParamsWithTimeout(timeout time.Duration) *CreateTeamParams {
-	var ()
 	return &CreateTeamParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewCreateTeamParamsWithContext creates a new CreateTeamParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewCreateTeamParamsWithContext(ctx context.Context) *CreateTeamParams {
-	var ()
 	return &CreateTeamParams{
-
 		Context: ctx,
 	}
 }
 
 // NewCreateTeamParamsWithHTTPClient creates a new CreateTeamParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewCreateTeamParamsWithHTTPClient(client *http.Client) *CreateTeamParams {
-	var ()
 	return &CreateTeamParams{
 		HTTPClient: client,
 	}
 }
 
-/*CreateTeamParams contains all the parameters to send to the API endpoint
-for the create team operation typically these are written to a http.Request
+/* CreateTeamParams contains all the parameters to send to the API endpoint
+   for the create team operation.
+
+   Typically these are written to a http.Request.
 */
 type CreateTeamParams struct {
 
-	/*Team
-	  The team data to create
+	/* Team.
 
+	   The team data to create
 	*/
 	Team *models.Team
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the create team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTeamParams) WithDefaults() *CreateTeamParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the create team params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *CreateTeamParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the create team params
@@ -125,7 +138,6 @@ func (o *CreateTeamParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Re
 		return err
 	}
 	var res []error
-
 	if o.Team != nil {
 		if err := r.SetBodyParam(o.Team); err != nil {
 			return err

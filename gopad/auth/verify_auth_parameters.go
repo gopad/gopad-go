@@ -13,63 +13,76 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewVerifyAuthParams creates a new VerifyAuthParams object
-// with the default values initialized.
+// NewVerifyAuthParams creates a new VerifyAuthParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewVerifyAuthParams() *VerifyAuthParams {
-	var ()
 	return &VerifyAuthParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewVerifyAuthParamsWithTimeout creates a new VerifyAuthParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewVerifyAuthParamsWithTimeout(timeout time.Duration) *VerifyAuthParams {
-	var ()
 	return &VerifyAuthParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewVerifyAuthParamsWithContext creates a new VerifyAuthParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewVerifyAuthParamsWithContext(ctx context.Context) *VerifyAuthParams {
-	var ()
 	return &VerifyAuthParams{
-
 		Context: ctx,
 	}
 }
 
 // NewVerifyAuthParamsWithHTTPClient creates a new VerifyAuthParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewVerifyAuthParamsWithHTTPClient(client *http.Client) *VerifyAuthParams {
-	var ()
 	return &VerifyAuthParams{
 		HTTPClient: client,
 	}
 }
 
-/*VerifyAuthParams contains all the parameters to send to the API endpoint
-for the verify auth operation typically these are written to a http.Request
+/* VerifyAuthParams contains all the parameters to send to the API endpoint
+   for the verify auth operation.
+
+   Typically these are written to a http.Request.
 */
 type VerifyAuthParams struct {
 
-	/*Token
-	  A token that have to be checked
+	/* Token.
 
+	   A token that have to be checked
 	*/
 	Token string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the verify auth params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *VerifyAuthParams) WithDefaults() *VerifyAuthParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the verify auth params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *VerifyAuthParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the verify auth params

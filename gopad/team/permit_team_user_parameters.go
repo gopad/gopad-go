@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
-// NewPermitTeamUserParams creates a new PermitTeamUserParams object
-// with the default values initialized.
+// NewPermitTeamUserParams creates a new PermitTeamUserParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPermitTeamUserParams() *PermitTeamUserParams {
-	var ()
 	return &PermitTeamUserParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPermitTeamUserParamsWithTimeout creates a new PermitTeamUserParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPermitTeamUserParamsWithTimeout(timeout time.Duration) *PermitTeamUserParams {
-	var ()
 	return &PermitTeamUserParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPermitTeamUserParamsWithContext creates a new PermitTeamUserParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPermitTeamUserParamsWithContext(ctx context.Context) *PermitTeamUserParams {
-	var ()
 	return &PermitTeamUserParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPermitTeamUserParamsWithHTTPClient creates a new PermitTeamUserParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPermitTeamUserParamsWithHTTPClient(client *http.Client) *PermitTeamUserParams {
-	var ()
 	return &PermitTeamUserParams{
 		HTTPClient: client,
 	}
 }
 
-/*PermitTeamUserParams contains all the parameters to send to the API endpoint
-for the permit team user operation typically these are written to a http.Request
+/* PermitTeamUserParams contains all the parameters to send to the API endpoint
+   for the permit team user operation.
+
+   Typically these are written to a http.Request.
 */
 type PermitTeamUserParams struct {
 
-	/*TeamID
-	  A team UUID or slug
+	/* TeamID.
 
+	   A team UUID or slug
 	*/
 	TeamID string
-	/*TeamUser
-	  The team user data to update
 
+	/* TeamUser.
+
+	   The team user data to update
 	*/
 	TeamUser *models.TeamUserParams
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the permit team user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PermitTeamUserParams) WithDefaults() *PermitTeamUserParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the permit team user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PermitTeamUserParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the permit team user params
@@ -146,7 +160,6 @@ func (o *PermitTeamUserParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 	if err := r.SetPathParam("team_id", o.TeamID); err != nil {
 		return err
 	}
-
 	if o.TeamUser != nil {
 		if err := r.SetBodyParam(o.TeamUser); err != nil {
 			return err

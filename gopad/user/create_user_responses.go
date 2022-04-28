@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // CreateUserReader is a Reader for the CreateUser structure.
@@ -24,35 +23,30 @@ type CreateUserReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *CreateUserReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewCreateUserOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewCreateUserForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 412:
 		result := NewCreateUserPreconditionFailed()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 422:
 		result := NewCreateUserUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewCreateUserDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -70,7 +64,7 @@ func NewCreateUserOK() *CreateUserOK {
 	return &CreateUserOK{}
 }
 
-/*CreateUserOK handles this case with default header values.
+/* CreateUserOK describes a response with status code 200, with default header values.
 
 The created user data
 */
@@ -80,6 +74,9 @@ type CreateUserOK struct {
 
 func (o *CreateUserOK) Error() string {
 	return fmt.Sprintf("[POST /users][%d] createUserOK  %+v", 200, o.Payload)
+}
+func (o *CreateUserOK) GetPayload() *models.User {
+	return o.Payload
 }
 
 func (o *CreateUserOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -99,7 +96,7 @@ func NewCreateUserForbidden() *CreateUserForbidden {
 	return &CreateUserForbidden{}
 }
 
-/*CreateUserForbidden handles this case with default header values.
+/* CreateUserForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -109,6 +106,9 @@ type CreateUserForbidden struct {
 
 func (o *CreateUserForbidden) Error() string {
 	return fmt.Sprintf("[POST /users][%d] createUserForbidden  %+v", 403, o.Payload)
+}
+func (o *CreateUserForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *CreateUserForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -128,7 +128,7 @@ func NewCreateUserPreconditionFailed() *CreateUserPreconditionFailed {
 	return &CreateUserPreconditionFailed{}
 }
 
-/*CreateUserPreconditionFailed handles this case with default header values.
+/* CreateUserPreconditionFailed describes a response with status code 412, with default header values.
 
 Failed to parse request body
 */
@@ -138,6 +138,9 @@ type CreateUserPreconditionFailed struct {
 
 func (o *CreateUserPreconditionFailed) Error() string {
 	return fmt.Sprintf("[POST /users][%d] createUserPreconditionFailed  %+v", 412, o.Payload)
+}
+func (o *CreateUserPreconditionFailed) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *CreateUserPreconditionFailed) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -157,7 +160,7 @@ func NewCreateUserUnprocessableEntity() *CreateUserUnprocessableEntity {
 	return &CreateUserUnprocessableEntity{}
 }
 
-/*CreateUserUnprocessableEntity handles this case with default header values.
+/* CreateUserUnprocessableEntity describes a response with status code 422, with default header values.
 
 Failed to validate request
 */
@@ -167,6 +170,9 @@ type CreateUserUnprocessableEntity struct {
 
 func (o *CreateUserUnprocessableEntity) Error() string {
 	return fmt.Sprintf("[POST /users][%d] createUserUnprocessableEntity  %+v", 422, o.Payload)
+}
+func (o *CreateUserUnprocessableEntity) GetPayload() *models.ValidationError {
+	return o.Payload
 }
 
 func (o *CreateUserUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -188,7 +194,7 @@ func NewCreateUserDefault(code int) *CreateUserDefault {
 	}
 }
 
-/*CreateUserDefault handles this case with default header values.
+/* CreateUserDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -205,6 +211,9 @@ func (o *CreateUserDefault) Code() int {
 
 func (o *CreateUserDefault) Error() string {
 	return fmt.Sprintf("[POST /users][%d] CreateUser default  %+v", o._statusCode, o.Payload)
+}
+func (o *CreateUserDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *CreateUserDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

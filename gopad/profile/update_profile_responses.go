@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // UpdateProfileReader is a Reader for the UpdateProfile structure.
@@ -24,35 +23,30 @@ type UpdateProfileReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *UpdateProfileReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewUpdateProfileOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewUpdateProfileForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 412:
 		result := NewUpdateProfilePreconditionFailed()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 422:
 		result := NewUpdateProfileUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewUpdateProfileDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -70,7 +64,7 @@ func NewUpdateProfileOK() *UpdateProfileOK {
 	return &UpdateProfileOK{}
 }
 
-/*UpdateProfileOK handles this case with default header values.
+/* UpdateProfileOK describes a response with status code 200, with default header values.
 
 The updated profile data
 */
@@ -80,6 +74,9 @@ type UpdateProfileOK struct {
 
 func (o *UpdateProfileOK) Error() string {
 	return fmt.Sprintf("[PUT /profile/self][%d] updateProfileOK  %+v", 200, o.Payload)
+}
+func (o *UpdateProfileOK) GetPayload() *models.Profile {
+	return o.Payload
 }
 
 func (o *UpdateProfileOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -99,7 +96,7 @@ func NewUpdateProfileForbidden() *UpdateProfileForbidden {
 	return &UpdateProfileForbidden{}
 }
 
-/*UpdateProfileForbidden handles this case with default header values.
+/* UpdateProfileForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -109,6 +106,9 @@ type UpdateProfileForbidden struct {
 
 func (o *UpdateProfileForbidden) Error() string {
 	return fmt.Sprintf("[PUT /profile/self][%d] updateProfileForbidden  %+v", 403, o.Payload)
+}
+func (o *UpdateProfileForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *UpdateProfileForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -128,7 +128,7 @@ func NewUpdateProfilePreconditionFailed() *UpdateProfilePreconditionFailed {
 	return &UpdateProfilePreconditionFailed{}
 }
 
-/*UpdateProfilePreconditionFailed handles this case with default header values.
+/* UpdateProfilePreconditionFailed describes a response with status code 412, with default header values.
 
 Failed to parse request body
 */
@@ -138,6 +138,9 @@ type UpdateProfilePreconditionFailed struct {
 
 func (o *UpdateProfilePreconditionFailed) Error() string {
 	return fmt.Sprintf("[PUT /profile/self][%d] updateProfilePreconditionFailed  %+v", 412, o.Payload)
+}
+func (o *UpdateProfilePreconditionFailed) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *UpdateProfilePreconditionFailed) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -157,7 +160,7 @@ func NewUpdateProfileUnprocessableEntity() *UpdateProfileUnprocessableEntity {
 	return &UpdateProfileUnprocessableEntity{}
 }
 
-/*UpdateProfileUnprocessableEntity handles this case with default header values.
+/* UpdateProfileUnprocessableEntity describes a response with status code 422, with default header values.
 
 Failed to validate request
 */
@@ -167,6 +170,9 @@ type UpdateProfileUnprocessableEntity struct {
 
 func (o *UpdateProfileUnprocessableEntity) Error() string {
 	return fmt.Sprintf("[PUT /profile/self][%d] updateProfileUnprocessableEntity  %+v", 422, o.Payload)
+}
+func (o *UpdateProfileUnprocessableEntity) GetPayload() *models.ValidationError {
+	return o.Payload
 }
 
 func (o *UpdateProfileUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -188,7 +194,7 @@ func NewUpdateProfileDefault(code int) *UpdateProfileDefault {
 	}
 }
 
-/*UpdateProfileDefault handles this case with default header values.
+/* UpdateProfileDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -205,6 +211,9 @@ func (o *UpdateProfileDefault) Code() int {
 
 func (o *UpdateProfileDefault) Error() string {
 	return fmt.Sprintf("[PUT /profile/self][%d] UpdateProfile default  %+v", o._statusCode, o.Payload)
+}
+func (o *UpdateProfileDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *UpdateProfileDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

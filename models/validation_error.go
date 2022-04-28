@@ -6,16 +6,17 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // ValidationError Validation error which shows failed fields
+//
 // swagger:model validation_error
 type ValidationError struct {
 
@@ -54,7 +55,6 @@ func (m *ValidationError) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ValidationError) validateErrors(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Errors) { // not required
 		return nil
 	}
@@ -68,6 +68,8 @@ func (m *ValidationError) validateErrors(formats strfmt.Registry) error {
 			if err := m.Errors[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("errors" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("errors" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -96,6 +98,40 @@ func (m *ValidationError) validateStatus(formats strfmt.Registry) error {
 	return nil
 }
 
+// ContextValidate validate this validation error based on the context it is used
+func (m *ValidationError) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateErrors(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ValidationError) contextValidateErrors(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Errors); i++ {
+
+		if m.Errors[i] != nil {
+			if err := m.Errors[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("errors" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("errors" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (m *ValidationError) MarshalBinary() ([]byte, error) {
 	if m == nil {
@@ -115,6 +151,7 @@ func (m *ValidationError) UnmarshalBinary(b []byte) error {
 }
 
 // ValidationErrorErrorsItems0 validation error errors items0
+//
 // swagger:model ValidationErrorErrorsItems0
 type ValidationErrorErrorsItems0 struct {
 
@@ -127,6 +164,11 @@ type ValidationErrorErrorsItems0 struct {
 
 // Validate validates this validation error errors items0
 func (m *ValidationErrorErrorsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this validation error errors items0 based on context it is used
+func (m *ValidationErrorErrorsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

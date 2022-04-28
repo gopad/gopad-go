@@ -6,14 +6,16 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // User user
+//
 // swagger:model user
 type User struct {
 
@@ -87,7 +89,6 @@ func (m *User) Validate(formats strfmt.Registry) error {
 }
 
 func (m *User) validateCreatedAt(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreatedAt) { // not required
 		return nil
 	}
@@ -109,7 +110,6 @@ func (m *User) validateEmail(formats strfmt.Registry) error {
 }
 
 func (m *User) validateID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ID) { // not required
 		return nil
 	}
@@ -122,7 +122,6 @@ func (m *User) validateID(formats strfmt.Registry) error {
 }
 
 func (m *User) validatePassword(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Password) { // not required
 		return nil
 	}
@@ -135,7 +134,6 @@ func (m *User) validatePassword(formats strfmt.Registry) error {
 }
 
 func (m *User) validateUpdatedAt(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UpdatedAt) { // not required
 		return nil
 	}
@@ -150,6 +148,29 @@ func (m *User) validateUpdatedAt(formats strfmt.Registry) error {
 func (m *User) validateUsername(formats strfmt.Registry) error {
 
 	if err := validate.Required("username", "body", m.Username); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this user based on the context it is used
+func (m *User) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateID(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *User) contextValidateID(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := validate.ReadOnly(ctx, "id", "body", strfmt.UUID(m.ID)); err != nil {
 		return err
 	}
 

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // AppendTeamToUserReader is a Reader for the AppendTeamToUser structure.
@@ -24,35 +23,30 @@ type AppendTeamToUserReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *AppendTeamToUserReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewAppendTeamToUserOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewAppendTeamToUserForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 412:
 		result := NewAppendTeamToUserPreconditionFailed()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 422:
 		result := NewAppendTeamToUserUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewAppendTeamToUserDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -70,7 +64,7 @@ func NewAppendTeamToUserOK() *AppendTeamToUserOK {
 	return &AppendTeamToUserOK{}
 }
 
-/*AppendTeamToUserOK handles this case with default header values.
+/* AppendTeamToUserOK describes a response with status code 200, with default header values.
 
 Plain success message
 */
@@ -80,6 +74,9 @@ type AppendTeamToUserOK struct {
 
 func (o *AppendTeamToUserOK) Error() string {
 	return fmt.Sprintf("[POST /teams/{team_id}/users][%d] appendTeamToUserOK  %+v", 200, o.Payload)
+}
+func (o *AppendTeamToUserOK) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *AppendTeamToUserOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -99,7 +96,7 @@ func NewAppendTeamToUserForbidden() *AppendTeamToUserForbidden {
 	return &AppendTeamToUserForbidden{}
 }
 
-/*AppendTeamToUserForbidden handles this case with default header values.
+/* AppendTeamToUserForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -109,6 +106,9 @@ type AppendTeamToUserForbidden struct {
 
 func (o *AppendTeamToUserForbidden) Error() string {
 	return fmt.Sprintf("[POST /teams/{team_id}/users][%d] appendTeamToUserForbidden  %+v", 403, o.Payload)
+}
+func (o *AppendTeamToUserForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *AppendTeamToUserForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -128,7 +128,7 @@ func NewAppendTeamToUserPreconditionFailed() *AppendTeamToUserPreconditionFailed
 	return &AppendTeamToUserPreconditionFailed{}
 }
 
-/*AppendTeamToUserPreconditionFailed handles this case with default header values.
+/* AppendTeamToUserPreconditionFailed describes a response with status code 412, with default header values.
 
 Failed to parse request body
 */
@@ -138,6 +138,9 @@ type AppendTeamToUserPreconditionFailed struct {
 
 func (o *AppendTeamToUserPreconditionFailed) Error() string {
 	return fmt.Sprintf("[POST /teams/{team_id}/users][%d] appendTeamToUserPreconditionFailed  %+v", 412, o.Payload)
+}
+func (o *AppendTeamToUserPreconditionFailed) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *AppendTeamToUserPreconditionFailed) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -157,7 +160,7 @@ func NewAppendTeamToUserUnprocessableEntity() *AppendTeamToUserUnprocessableEnti
 	return &AppendTeamToUserUnprocessableEntity{}
 }
 
-/*AppendTeamToUserUnprocessableEntity handles this case with default header values.
+/* AppendTeamToUserUnprocessableEntity describes a response with status code 422, with default header values.
 
 User is already assigned
 */
@@ -167,6 +170,9 @@ type AppendTeamToUserUnprocessableEntity struct {
 
 func (o *AppendTeamToUserUnprocessableEntity) Error() string {
 	return fmt.Sprintf("[POST /teams/{team_id}/users][%d] appendTeamToUserUnprocessableEntity  %+v", 422, o.Payload)
+}
+func (o *AppendTeamToUserUnprocessableEntity) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *AppendTeamToUserUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -188,7 +194,7 @@ func NewAppendTeamToUserDefault(code int) *AppendTeamToUserDefault {
 	}
 }
 
-/*AppendTeamToUserDefault handles this case with default header values.
+/* AppendTeamToUserDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -205,6 +211,9 @@ func (o *AppendTeamToUserDefault) Code() int {
 
 func (o *AppendTeamToUserDefault) Error() string {
 	return fmt.Sprintf("[POST /teams/{team_id}/users][%d] AppendTeamToUser default  %+v", o._statusCode, o.Payload)
+}
+func (o *AppendTeamToUserDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *AppendTeamToUserDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // ShowProfileReader is a Reader for the ShowProfile structure.
@@ -24,21 +23,18 @@ type ShowProfileReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ShowProfileReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewShowProfileOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewShowProfileForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewShowProfileDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -56,7 +52,7 @@ func NewShowProfileOK() *ShowProfileOK {
 	return &ShowProfileOK{}
 }
 
-/*ShowProfileOK handles this case with default header values.
+/* ShowProfileOK describes a response with status code 200, with default header values.
 
 The current profile data
 */
@@ -66,6 +62,9 @@ type ShowProfileOK struct {
 
 func (o *ShowProfileOK) Error() string {
 	return fmt.Sprintf("[GET /profile/self][%d] showProfileOK  %+v", 200, o.Payload)
+}
+func (o *ShowProfileOK) GetPayload() *models.Profile {
+	return o.Payload
 }
 
 func (o *ShowProfileOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -85,7 +84,7 @@ func NewShowProfileForbidden() *ShowProfileForbidden {
 	return &ShowProfileForbidden{}
 }
 
-/*ShowProfileForbidden handles this case with default header values.
+/* ShowProfileForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -95,6 +94,9 @@ type ShowProfileForbidden struct {
 
 func (o *ShowProfileForbidden) Error() string {
 	return fmt.Sprintf("[GET /profile/self][%d] showProfileForbidden  %+v", 403, o.Payload)
+}
+func (o *ShowProfileForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ShowProfileForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -116,7 +118,7 @@ func NewShowProfileDefault(code int) *ShowProfileDefault {
 	}
 }
 
-/*ShowProfileDefault handles this case with default header values.
+/* ShowProfileDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -133,6 +135,9 @@ func (o *ShowProfileDefault) Code() int {
 
 func (o *ShowProfileDefault) Error() string {
 	return fmt.Sprintf("[GET /profile/self][%d] ShowProfile default  %+v", o._statusCode, o.Payload)
+}
+func (o *ShowProfileDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ShowProfileDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // DeleteUserFromTeamReader is a Reader for the DeleteUserFromTeam structure.
@@ -24,35 +23,30 @@ type DeleteUserFromTeamReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteUserFromTeamReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewDeleteUserFromTeamOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewDeleteUserFromTeamForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 412:
 		result := NewDeleteUserFromTeamPreconditionFailed()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 422:
 		result := NewDeleteUserFromTeamUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewDeleteUserFromTeamDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -70,7 +64,7 @@ func NewDeleteUserFromTeamOK() *DeleteUserFromTeamOK {
 	return &DeleteUserFromTeamOK{}
 }
 
-/*DeleteUserFromTeamOK handles this case with default header values.
+/* DeleteUserFromTeamOK describes a response with status code 200, with default header values.
 
 Plain success message
 */
@@ -80,6 +74,9 @@ type DeleteUserFromTeamOK struct {
 
 func (o *DeleteUserFromTeamOK) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}/teams][%d] deleteUserFromTeamOK  %+v", 200, o.Payload)
+}
+func (o *DeleteUserFromTeamOK) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserFromTeamOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -99,7 +96,7 @@ func NewDeleteUserFromTeamForbidden() *DeleteUserFromTeamForbidden {
 	return &DeleteUserFromTeamForbidden{}
 }
 
-/*DeleteUserFromTeamForbidden handles this case with default header values.
+/* DeleteUserFromTeamForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -109,6 +106,9 @@ type DeleteUserFromTeamForbidden struct {
 
 func (o *DeleteUserFromTeamForbidden) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}/teams][%d] deleteUserFromTeamForbidden  %+v", 403, o.Payload)
+}
+func (o *DeleteUserFromTeamForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserFromTeamForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -128,7 +128,7 @@ func NewDeleteUserFromTeamPreconditionFailed() *DeleteUserFromTeamPreconditionFa
 	return &DeleteUserFromTeamPreconditionFailed{}
 }
 
-/*DeleteUserFromTeamPreconditionFailed handles this case with default header values.
+/* DeleteUserFromTeamPreconditionFailed describes a response with status code 412, with default header values.
 
 Failed to parse request body
 */
@@ -138,6 +138,9 @@ type DeleteUserFromTeamPreconditionFailed struct {
 
 func (o *DeleteUserFromTeamPreconditionFailed) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}/teams][%d] deleteUserFromTeamPreconditionFailed  %+v", 412, o.Payload)
+}
+func (o *DeleteUserFromTeamPreconditionFailed) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserFromTeamPreconditionFailed) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -157,7 +160,7 @@ func NewDeleteUserFromTeamUnprocessableEntity() *DeleteUserFromTeamUnprocessable
 	return &DeleteUserFromTeamUnprocessableEntity{}
 }
 
-/*DeleteUserFromTeamUnprocessableEntity handles this case with default header values.
+/* DeleteUserFromTeamUnprocessableEntity describes a response with status code 422, with default header values.
 
 Team is not assigned
 */
@@ -167,6 +170,9 @@ type DeleteUserFromTeamUnprocessableEntity struct {
 
 func (o *DeleteUserFromTeamUnprocessableEntity) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}/teams][%d] deleteUserFromTeamUnprocessableEntity  %+v", 422, o.Payload)
+}
+func (o *DeleteUserFromTeamUnprocessableEntity) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserFromTeamUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -188,7 +194,7 @@ func NewDeleteUserFromTeamDefault(code int) *DeleteUserFromTeamDefault {
 	}
 }
 
-/*DeleteUserFromTeamDefault handles this case with default header values.
+/* DeleteUserFromTeamDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -205,6 +211,9 @@ func (o *DeleteUserFromTeamDefault) Code() int {
 
 func (o *DeleteUserFromTeamDefault) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}/teams][%d] DeleteUserFromTeam default  %+v", o._statusCode, o.Payload)
+}
+func (o *DeleteUserFromTeamDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserFromTeamDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

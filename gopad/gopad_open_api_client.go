@@ -8,16 +8,15 @@ package gopad
 import (
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/gopad/gopad-go/gopad/auth"
-	"github.com/gopad/gopad-go/gopad/profile"
-	"github.com/gopad/gopad-go/gopad/team"
-	"github.com/gopad/gopad-go/gopad/user"
+	"github.com/gopad/gopad-go/v1/gopad/auth"
+	"github.com/gopad/gopad-go/v1/gopad/profile"
+	"github.com/gopad/gopad-go/v1/gopad/team"
+	"github.com/gopad/gopad-go/v1/gopad/user"
 )
 
-// Default gopad open HTTP client.
+// Default gopad open API HTTP client.
 var Default = NewHTTPClient(nil)
 
 const (
@@ -32,14 +31,14 @@ const (
 // DefaultSchemes are the default schemes found in Meta (info) section of spec file
 var DefaultSchemes = []string{"http", "https"}
 
-// NewHTTPClient creates a new gopad open HTTP client.
-func NewHTTPClient(formats strfmt.Registry) *GopadOpen {
+// NewHTTPClient creates a new gopad open API HTTP client.
+func NewHTTPClient(formats strfmt.Registry) *GopadOpenAPI {
 	return NewHTTPClientWithConfig(formats, nil)
 }
 
-// NewHTTPClientWithConfig creates a new gopad open HTTP client,
+// NewHTTPClientWithConfig creates a new gopad open API HTTP client,
 // using a customizable transport config.
-func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *GopadOpen {
+func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *GopadOpenAPI {
 	// ensure nullable parameters have default
 	if cfg == nil {
 		cfg = DefaultTransportConfig()
@@ -50,24 +49,19 @@ func NewHTTPClientWithConfig(formats strfmt.Registry, cfg *TransportConfig) *Gop
 	return New(transport, formats)
 }
 
-// New creates a new gopad open client
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *GopadOpen {
+// New creates a new gopad open API client
+func New(transport runtime.ClientTransport, formats strfmt.Registry) *GopadOpenAPI {
 	// ensure nullable parameters have default
 	if formats == nil {
 		formats = strfmt.Default
 	}
 
-	cli := new(GopadOpen)
+	cli := new(GopadOpenAPI)
 	cli.Transport = transport
-
 	cli.Auth = auth.New(transport, formats)
-
 	cli.Profile = profile.New(transport, formats)
-
 	cli.Team = team.New(transport, formats)
-
 	cli.User = user.New(transport, formats)
-
 	return cli
 }
 
@@ -110,29 +104,24 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 	return cfg
 }
 
-// GopadOpen is a client for gopad open
-type GopadOpen struct {
-	Auth *auth.Client
+// GopadOpenAPI is a client for gopad open API
+type GopadOpenAPI struct {
+	Auth auth.ClientService
 
-	Profile *profile.Client
+	Profile profile.ClientService
 
-	Team *team.Client
+	Team team.ClientService
 
-	User *user.Client
+	User user.ClientService
 
 	Transport runtime.ClientTransport
 }
 
 // SetTransport changes the transport on the client and all its subresources
-func (c *GopadOpen) SetTransport(transport runtime.ClientTransport) {
+func (c *GopadOpenAPI) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
-
 	c.Auth.SetTransport(transport)
-
 	c.Profile.SetTransport(transport)
-
 	c.Team.SetTransport(transport)
-
 	c.User.SetTransport(transport)
-
 }

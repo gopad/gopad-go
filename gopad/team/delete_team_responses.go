@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // DeleteTeamReader is a Reader for the DeleteTeam structure.
@@ -24,28 +23,24 @@ type DeleteTeamReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteTeamReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewDeleteTeamOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 400:
 		result := NewDeleteTeamBadRequest()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 403:
 		result := NewDeleteTeamForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewDeleteTeamDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -63,7 +58,7 @@ func NewDeleteTeamOK() *DeleteTeamOK {
 	return &DeleteTeamOK{}
 }
 
-/*DeleteTeamOK handles this case with default header values.
+/* DeleteTeamOK describes a response with status code 200, with default header values.
 
 Plain success message
 */
@@ -73,6 +68,9 @@ type DeleteTeamOK struct {
 
 func (o *DeleteTeamOK) Error() string {
 	return fmt.Sprintf("[DELETE /teams/{team_id}][%d] deleteTeamOK  %+v", 200, o.Payload)
+}
+func (o *DeleteTeamOK) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteTeamOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -92,7 +90,7 @@ func NewDeleteTeamBadRequest() *DeleteTeamBadRequest {
 	return &DeleteTeamBadRequest{}
 }
 
-/*DeleteTeamBadRequest handles this case with default header values.
+/* DeleteTeamBadRequest describes a response with status code 400, with default header values.
 
 Failed to delete the team
 */
@@ -102,6 +100,9 @@ type DeleteTeamBadRequest struct {
 
 func (o *DeleteTeamBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /teams/{team_id}][%d] deleteTeamBadRequest  %+v", 400, o.Payload)
+}
+func (o *DeleteTeamBadRequest) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteTeamBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -121,7 +122,7 @@ func NewDeleteTeamForbidden() *DeleteTeamForbidden {
 	return &DeleteTeamForbidden{}
 }
 
-/*DeleteTeamForbidden handles this case with default header values.
+/* DeleteTeamForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -131,6 +132,9 @@ type DeleteTeamForbidden struct {
 
 func (o *DeleteTeamForbidden) Error() string {
 	return fmt.Sprintf("[DELETE /teams/{team_id}][%d] deleteTeamForbidden  %+v", 403, o.Payload)
+}
+func (o *DeleteTeamForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteTeamForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -152,7 +156,7 @@ func NewDeleteTeamDefault(code int) *DeleteTeamDefault {
 	}
 }
 
-/*DeleteTeamDefault handles this case with default header values.
+/* DeleteTeamDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -169,6 +173,9 @@ func (o *DeleteTeamDefault) Code() int {
 
 func (o *DeleteTeamDefault) Error() string {
 	return fmt.Sprintf("[DELETE /teams/{team_id}][%d] DeleteTeam default  %+v", o._statusCode, o.Payload)
+}
+func (o *DeleteTeamDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteTeamDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // LoginUserReader is a Reader for the LoginUser structure.
@@ -24,21 +23,18 @@ type LoginUserReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *LoginUserReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewLoginUserOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 401:
 		result := NewLoginUserUnauthorized()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewLoginUserDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -56,7 +52,7 @@ func NewLoginUserOK() *LoginUserOK {
 	return &LoginUserOK{}
 }
 
-/*LoginUserOK handles this case with default header values.
+/* LoginUserOK describes a response with status code 200, with default header values.
 
 A generated token with expire
 */
@@ -66,6 +62,9 @@ type LoginUserOK struct {
 
 func (o *LoginUserOK) Error() string {
 	return fmt.Sprintf("[POST /auth/login][%d] loginUserOK  %+v", 200, o.Payload)
+}
+func (o *LoginUserOK) GetPayload() *models.AuthToken {
+	return o.Payload
 }
 
 func (o *LoginUserOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -85,7 +84,7 @@ func NewLoginUserUnauthorized() *LoginUserUnauthorized {
 	return &LoginUserUnauthorized{}
 }
 
-/*LoginUserUnauthorized handles this case with default header values.
+/* LoginUserUnauthorized describes a response with status code 401, with default header values.
 
 Unauthorized if wrong credentials
 */
@@ -95,6 +94,9 @@ type LoginUserUnauthorized struct {
 
 func (o *LoginUserUnauthorized) Error() string {
 	return fmt.Sprintf("[POST /auth/login][%d] loginUserUnauthorized  %+v", 401, o.Payload)
+}
+func (o *LoginUserUnauthorized) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *LoginUserUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -116,7 +118,7 @@ func NewLoginUserDefault(code int) *LoginUserDefault {
 	}
 }
 
-/*LoginUserDefault handles this case with default header values.
+/* LoginUserDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -133,6 +135,9 @@ func (o *LoginUserDefault) Code() int {
 
 func (o *LoginUserDefault) Error() string {
 	return fmt.Sprintf("[POST /auth/login][%d] LoginUser default  %+v", o._statusCode, o.Payload)
+}
+func (o *LoginUserDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *LoginUserDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

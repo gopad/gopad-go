@@ -13,63 +13,76 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewShowUserParams creates a new ShowUserParams object
-// with the default values initialized.
+// NewShowUserParams creates a new ShowUserParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewShowUserParams() *ShowUserParams {
-	var ()
 	return &ShowUserParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewShowUserParamsWithTimeout creates a new ShowUserParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewShowUserParamsWithTimeout(timeout time.Duration) *ShowUserParams {
-	var ()
 	return &ShowUserParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewShowUserParamsWithContext creates a new ShowUserParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewShowUserParamsWithContext(ctx context.Context) *ShowUserParams {
-	var ()
 	return &ShowUserParams{
-
 		Context: ctx,
 	}
 }
 
 // NewShowUserParamsWithHTTPClient creates a new ShowUserParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewShowUserParamsWithHTTPClient(client *http.Client) *ShowUserParams {
-	var ()
 	return &ShowUserParams{
 		HTTPClient: client,
 	}
 }
 
-/*ShowUserParams contains all the parameters to send to the API endpoint
-for the show user operation typically these are written to a http.Request
+/* ShowUserParams contains all the parameters to send to the API endpoint
+   for the show user operation.
+
+   Typically these are written to a http.Request.
 */
 type ShowUserParams struct {
 
-	/*UserID
-	  A user UUID or slug
+	/* UserID.
 
+	   A user UUID or slug
 	*/
 	UserID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the show user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ShowUserParams) WithDefaults() *ShowUserParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the show user params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ShowUserParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the show user params

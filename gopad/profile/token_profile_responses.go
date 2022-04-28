@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // TokenProfileReader is a Reader for the TokenProfile structure.
@@ -24,28 +23,24 @@ type TokenProfileReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *TokenProfileReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewTokenProfileOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewTokenProfileForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 500:
 		result := NewTokenProfileInternalServerError()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewTokenProfileDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -63,7 +58,7 @@ func NewTokenProfileOK() *TokenProfileOK {
 	return &TokenProfileOK{}
 }
 
-/*TokenProfileOK handles this case with default header values.
+/* TokenProfileOK describes a response with status code 200, with default header values.
 
 The unlimited auth token
 */
@@ -73,6 +68,9 @@ type TokenProfileOK struct {
 
 func (o *TokenProfileOK) Error() string {
 	return fmt.Sprintf("[GET /profile/token][%d] tokenProfileOK  %+v", 200, o.Payload)
+}
+func (o *TokenProfileOK) GetPayload() *models.AuthToken {
+	return o.Payload
 }
 
 func (o *TokenProfileOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -92,7 +90,7 @@ func NewTokenProfileForbidden() *TokenProfileForbidden {
 	return &TokenProfileForbidden{}
 }
 
-/*TokenProfileForbidden handles this case with default header values.
+/* TokenProfileForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -102,6 +100,9 @@ type TokenProfileForbidden struct {
 
 func (o *TokenProfileForbidden) Error() string {
 	return fmt.Sprintf("[GET /profile/token][%d] tokenProfileForbidden  %+v", 403, o.Payload)
+}
+func (o *TokenProfileForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *TokenProfileForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -121,7 +122,7 @@ func NewTokenProfileInternalServerError() *TokenProfileInternalServerError {
 	return &TokenProfileInternalServerError{}
 }
 
-/*TokenProfileInternalServerError handles this case with default header values.
+/* TokenProfileInternalServerError describes a response with status code 500, with default header values.
 
 Failed to generate a token
 */
@@ -131,6 +132,9 @@ type TokenProfileInternalServerError struct {
 
 func (o *TokenProfileInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /profile/token][%d] tokenProfileInternalServerError  %+v", 500, o.Payload)
+}
+func (o *TokenProfileInternalServerError) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *TokenProfileInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -152,7 +156,7 @@ func NewTokenProfileDefault(code int) *TokenProfileDefault {
 	}
 }
 
-/*TokenProfileDefault handles this case with default header values.
+/* TokenProfileDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -169,6 +173,9 @@ func (o *TokenProfileDefault) Code() int {
 
 func (o *TokenProfileDefault) Error() string {
 	return fmt.Sprintf("[GET /profile/token][%d] TokenProfile default  %+v", o._statusCode, o.Payload)
+}
+func (o *TokenProfileDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *TokenProfileDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

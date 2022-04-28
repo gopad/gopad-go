@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // PermitUserTeamReader is a Reader for the PermitUserTeam structure.
@@ -24,35 +23,30 @@ type PermitUserTeamReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *PermitUserTeamReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewPermitUserTeamOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewPermitUserTeamForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 412:
 		result := NewPermitUserTeamPreconditionFailed()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 422:
 		result := NewPermitUserTeamUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewPermitUserTeamDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -70,7 +64,7 @@ func NewPermitUserTeamOK() *PermitUserTeamOK {
 	return &PermitUserTeamOK{}
 }
 
-/*PermitUserTeamOK handles this case with default header values.
+/* PermitUserTeamOK describes a response with status code 200, with default header values.
 
 Plain success message
 */
@@ -80,6 +74,9 @@ type PermitUserTeamOK struct {
 
 func (o *PermitUserTeamOK) Error() string {
 	return fmt.Sprintf("[PUT /users/{user_id}/teams][%d] permitUserTeamOK  %+v", 200, o.Payload)
+}
+func (o *PermitUserTeamOK) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *PermitUserTeamOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -99,7 +96,7 @@ func NewPermitUserTeamForbidden() *PermitUserTeamForbidden {
 	return &PermitUserTeamForbidden{}
 }
 
-/*PermitUserTeamForbidden handles this case with default header values.
+/* PermitUserTeamForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -109,6 +106,9 @@ type PermitUserTeamForbidden struct {
 
 func (o *PermitUserTeamForbidden) Error() string {
 	return fmt.Sprintf("[PUT /users/{user_id}/teams][%d] permitUserTeamForbidden  %+v", 403, o.Payload)
+}
+func (o *PermitUserTeamForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *PermitUserTeamForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -128,7 +128,7 @@ func NewPermitUserTeamPreconditionFailed() *PermitUserTeamPreconditionFailed {
 	return &PermitUserTeamPreconditionFailed{}
 }
 
-/*PermitUserTeamPreconditionFailed handles this case with default header values.
+/* PermitUserTeamPreconditionFailed describes a response with status code 412, with default header values.
 
 Failed to parse request body
 */
@@ -138,6 +138,9 @@ type PermitUserTeamPreconditionFailed struct {
 
 func (o *PermitUserTeamPreconditionFailed) Error() string {
 	return fmt.Sprintf("[PUT /users/{user_id}/teams][%d] permitUserTeamPreconditionFailed  %+v", 412, o.Payload)
+}
+func (o *PermitUserTeamPreconditionFailed) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *PermitUserTeamPreconditionFailed) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -157,7 +160,7 @@ func NewPermitUserTeamUnprocessableEntity() *PermitUserTeamUnprocessableEntity {
 	return &PermitUserTeamUnprocessableEntity{}
 }
 
-/*PermitUserTeamUnprocessableEntity handles this case with default header values.
+/* PermitUserTeamUnprocessableEntity describes a response with status code 422, with default header values.
 
 Team is not assigned
 */
@@ -167,6 +170,9 @@ type PermitUserTeamUnprocessableEntity struct {
 
 func (o *PermitUserTeamUnprocessableEntity) Error() string {
 	return fmt.Sprintf("[PUT /users/{user_id}/teams][%d] permitUserTeamUnprocessableEntity  %+v", 422, o.Payload)
+}
+func (o *PermitUserTeamUnprocessableEntity) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *PermitUserTeamUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -188,7 +194,7 @@ func NewPermitUserTeamDefault(code int) *PermitUserTeamDefault {
 	}
 }
 
-/*PermitUserTeamDefault handles this case with default header values.
+/* PermitUserTeamDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -205,6 +211,9 @@ func (o *PermitUserTeamDefault) Code() int {
 
 func (o *PermitUserTeamDefault) Error() string {
 	return fmt.Sprintf("[PUT /users/{user_id}/teams][%d] PermitUserTeam default  %+v", o._statusCode, o.Payload)
+}
+func (o *PermitUserTeamDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *PermitUserTeamDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

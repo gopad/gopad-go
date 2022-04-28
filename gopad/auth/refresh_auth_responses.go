@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // RefreshAuthReader is a Reader for the RefreshAuth structure.
@@ -24,21 +23,18 @@ type RefreshAuthReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *RefreshAuthReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewRefreshAuthOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 401:
 		result := NewRefreshAuthUnauthorized()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewRefreshAuthDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -56,7 +52,7 @@ func NewRefreshAuthOK() *RefreshAuthOK {
 	return &RefreshAuthOK{}
 }
 
-/*RefreshAuthOK handles this case with default header values.
+/* RefreshAuthOK describes a response with status code 200, with default header values.
 
 A refreshed token with expire
 */
@@ -66,6 +62,9 @@ type RefreshAuthOK struct {
 
 func (o *RefreshAuthOK) Error() string {
 	return fmt.Sprintf("[GET /auth/refresh][%d] refreshAuthOK  %+v", 200, o.Payload)
+}
+func (o *RefreshAuthOK) GetPayload() *models.AuthToken {
+	return o.Payload
 }
 
 func (o *RefreshAuthOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -85,7 +84,7 @@ func NewRefreshAuthUnauthorized() *RefreshAuthUnauthorized {
 	return &RefreshAuthUnauthorized{}
 }
 
-/*RefreshAuthUnauthorized handles this case with default header values.
+/* RefreshAuthUnauthorized describes a response with status code 401, with default header values.
 
 Unauthorized if failed to generate
 */
@@ -95,6 +94,9 @@ type RefreshAuthUnauthorized struct {
 
 func (o *RefreshAuthUnauthorized) Error() string {
 	return fmt.Sprintf("[GET /auth/refresh][%d] refreshAuthUnauthorized  %+v", 401, o.Payload)
+}
+func (o *RefreshAuthUnauthorized) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *RefreshAuthUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -116,7 +118,7 @@ func NewRefreshAuthDefault(code int) *RefreshAuthDefault {
 	}
 }
 
-/*RefreshAuthDefault handles this case with default header values.
+/* RefreshAuthDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -133,6 +135,9 @@ func (o *RefreshAuthDefault) Code() int {
 
 func (o *RefreshAuthDefault) Error() string {
 	return fmt.Sprintf("[GET /auth/refresh][%d] RefreshAuth default  %+v", o._statusCode, o.Payload)
+}
+func (o *RefreshAuthDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *RefreshAuthDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

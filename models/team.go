@@ -6,14 +6,16 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // Team team
+//
 // swagger:model team
 type Team struct {
 
@@ -65,7 +67,6 @@ func (m *Team) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Team) validateCreatedAt(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreatedAt) { // not required
 		return nil
 	}
@@ -78,7 +79,6 @@ func (m *Team) validateCreatedAt(formats strfmt.Registry) error {
 }
 
 func (m *Team) validateID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ID) { // not required
 		return nil
 	}
@@ -100,12 +100,34 @@ func (m *Team) validateName(formats strfmt.Registry) error {
 }
 
 func (m *Team) validateUpdatedAt(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UpdatedAt) { // not required
 		return nil
 	}
 
 	if err := validate.FormatOf("updated_at", "body", "date-time", m.UpdatedAt.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this team based on the context it is used
+func (m *Team) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateID(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Team) contextValidateID(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := validate.ReadOnly(ctx, "id", "body", strfmt.UUID(m.ID)); err != nil {
 		return err
 	}
 

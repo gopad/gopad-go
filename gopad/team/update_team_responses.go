@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // UpdateTeamReader is a Reader for the UpdateTeam structure.
@@ -24,35 +23,30 @@ type UpdateTeamReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *UpdateTeamReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewUpdateTeamOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewUpdateTeamForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 412:
 		result := NewUpdateTeamPreconditionFailed()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 422:
 		result := NewUpdateTeamUnprocessableEntity()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewUpdateTeamDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -70,7 +64,7 @@ func NewUpdateTeamOK() *UpdateTeamOK {
 	return &UpdateTeamOK{}
 }
 
-/*UpdateTeamOK handles this case with default header values.
+/* UpdateTeamOK describes a response with status code 200, with default header values.
 
 The updated team details
 */
@@ -80,6 +74,9 @@ type UpdateTeamOK struct {
 
 func (o *UpdateTeamOK) Error() string {
 	return fmt.Sprintf("[PUT /teams/{team_id}][%d] updateTeamOK  %+v", 200, o.Payload)
+}
+func (o *UpdateTeamOK) GetPayload() *models.Team {
+	return o.Payload
 }
 
 func (o *UpdateTeamOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -99,7 +96,7 @@ func NewUpdateTeamForbidden() *UpdateTeamForbidden {
 	return &UpdateTeamForbidden{}
 }
 
-/*UpdateTeamForbidden handles this case with default header values.
+/* UpdateTeamForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -109,6 +106,9 @@ type UpdateTeamForbidden struct {
 
 func (o *UpdateTeamForbidden) Error() string {
 	return fmt.Sprintf("[PUT /teams/{team_id}][%d] updateTeamForbidden  %+v", 403, o.Payload)
+}
+func (o *UpdateTeamForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *UpdateTeamForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -128,7 +128,7 @@ func NewUpdateTeamPreconditionFailed() *UpdateTeamPreconditionFailed {
 	return &UpdateTeamPreconditionFailed{}
 }
 
-/*UpdateTeamPreconditionFailed handles this case with default header values.
+/* UpdateTeamPreconditionFailed describes a response with status code 412, with default header values.
 
 Failed to parse request body
 */
@@ -138,6 +138,9 @@ type UpdateTeamPreconditionFailed struct {
 
 func (o *UpdateTeamPreconditionFailed) Error() string {
 	return fmt.Sprintf("[PUT /teams/{team_id}][%d] updateTeamPreconditionFailed  %+v", 412, o.Payload)
+}
+func (o *UpdateTeamPreconditionFailed) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *UpdateTeamPreconditionFailed) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -157,7 +160,7 @@ func NewUpdateTeamUnprocessableEntity() *UpdateTeamUnprocessableEntity {
 	return &UpdateTeamUnprocessableEntity{}
 }
 
-/*UpdateTeamUnprocessableEntity handles this case with default header values.
+/* UpdateTeamUnprocessableEntity describes a response with status code 422, with default header values.
 
 Failed to validate request
 */
@@ -167,6 +170,9 @@ type UpdateTeamUnprocessableEntity struct {
 
 func (o *UpdateTeamUnprocessableEntity) Error() string {
 	return fmt.Sprintf("[PUT /teams/{team_id}][%d] updateTeamUnprocessableEntity  %+v", 422, o.Payload)
+}
+func (o *UpdateTeamUnprocessableEntity) GetPayload() *models.ValidationError {
+	return o.Payload
 }
 
 func (o *UpdateTeamUnprocessableEntity) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -188,7 +194,7 @@ func NewUpdateTeamDefault(code int) *UpdateTeamDefault {
 	}
 }
 
-/*UpdateTeamDefault handles this case with default header values.
+/* UpdateTeamDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -205,6 +211,9 @@ func (o *UpdateTeamDefault) Code() int {
 
 func (o *UpdateTeamDefault) Error() string {
 	return fmt.Sprintf("[PUT /teams/{team_id}][%d] UpdateTeam default  %+v", o._statusCode, o.Payload)
+}
+func (o *UpdateTeamDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *UpdateTeamDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

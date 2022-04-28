@@ -13,56 +13,69 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
-// NewShowProfileParams creates a new ShowProfileParams object
-// with the default values initialized.
+// NewShowProfileParams creates a new ShowProfileParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewShowProfileParams() *ShowProfileParams {
-
 	return &ShowProfileParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewShowProfileParamsWithTimeout creates a new ShowProfileParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewShowProfileParamsWithTimeout(timeout time.Duration) *ShowProfileParams {
-
 	return &ShowProfileParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewShowProfileParamsWithContext creates a new ShowProfileParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewShowProfileParamsWithContext(ctx context.Context) *ShowProfileParams {
-
 	return &ShowProfileParams{
-
 		Context: ctx,
 	}
 }
 
 // NewShowProfileParamsWithHTTPClient creates a new ShowProfileParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewShowProfileParamsWithHTTPClient(client *http.Client) *ShowProfileParams {
-
 	return &ShowProfileParams{
 		HTTPClient: client,
 	}
 }
 
-/*ShowProfileParams contains all the parameters to send to the API endpoint
-for the show profile operation typically these are written to a http.Request
+/* ShowProfileParams contains all the parameters to send to the API endpoint
+   for the show profile operation.
+
+   Typically these are written to a http.Request.
 */
 type ShowProfileParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the show profile params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ShowProfileParams) WithDefaults() *ShowProfileParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the show profile params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *ShowProfileParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the show profile params

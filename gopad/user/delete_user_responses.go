@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // DeleteUserReader is a Reader for the DeleteUser structure.
@@ -24,28 +23,24 @@ type DeleteUserReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeleteUserReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewDeleteUserOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 400:
 		result := NewDeleteUserBadRequest()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	case 403:
 		result := NewDeleteUserForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewDeleteUserDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -63,7 +58,7 @@ func NewDeleteUserOK() *DeleteUserOK {
 	return &DeleteUserOK{}
 }
 
-/*DeleteUserOK handles this case with default header values.
+/* DeleteUserOK describes a response with status code 200, with default header values.
 
 Plain success message
 */
@@ -73,6 +68,9 @@ type DeleteUserOK struct {
 
 func (o *DeleteUserOK) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}][%d] deleteUserOK  %+v", 200, o.Payload)
+}
+func (o *DeleteUserOK) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -92,7 +90,7 @@ func NewDeleteUserBadRequest() *DeleteUserBadRequest {
 	return &DeleteUserBadRequest{}
 }
 
-/*DeleteUserBadRequest handles this case with default header values.
+/* DeleteUserBadRequest describes a response with status code 400, with default header values.
 
 Failed to delete the user
 */
@@ -102,6 +100,9 @@ type DeleteUserBadRequest struct {
 
 func (o *DeleteUserBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}][%d] deleteUserBadRequest  %+v", 400, o.Payload)
+}
+func (o *DeleteUserBadRequest) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -121,7 +122,7 @@ func NewDeleteUserForbidden() *DeleteUserForbidden {
 	return &DeleteUserForbidden{}
 }
 
-/*DeleteUserForbidden handles this case with default header values.
+/* DeleteUserForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -131,6 +132,9 @@ type DeleteUserForbidden struct {
 
 func (o *DeleteUserForbidden) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}][%d] deleteUserForbidden  %+v", 403, o.Payload)
+}
+func (o *DeleteUserForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -152,7 +156,7 @@ func NewDeleteUserDefault(code int) *DeleteUserDefault {
 	}
 }
 
-/*DeleteUserDefault handles this case with default header values.
+/* DeleteUserDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -169,6 +173,9 @@ func (o *DeleteUserDefault) Code() int {
 
 func (o *DeleteUserDefault) Error() string {
 	return fmt.Sprintf("[DELETE /users/{user_id}][%d] DeleteUser default  %+v", o._statusCode, o.Payload)
+}
+func (o *DeleteUserDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *DeleteUserDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

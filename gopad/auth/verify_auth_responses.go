@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // VerifyAuthReader is a Reader for the VerifyAuth structure.
@@ -24,21 +23,18 @@ type VerifyAuthReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *VerifyAuthReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewVerifyAuthOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 401:
 		result := NewVerifyAuthUnauthorized()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewVerifyAuthDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -56,7 +52,7 @@ func NewVerifyAuthOK() *VerifyAuthOK {
 	return &VerifyAuthOK{}
 }
 
-/*VerifyAuthOK handles this case with default header values.
+/* VerifyAuthOK describes a response with status code 200, with default header values.
 
 Meta data of the provided token
 */
@@ -66,6 +62,9 @@ type VerifyAuthOK struct {
 
 func (o *VerifyAuthOK) Error() string {
 	return fmt.Sprintf("[GET /auth/verify/{token}][%d] verifyAuthOK  %+v", 200, o.Payload)
+}
+func (o *VerifyAuthOK) GetPayload() *models.AuthVerify {
+	return o.Payload
 }
 
 func (o *VerifyAuthOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -85,7 +84,7 @@ func NewVerifyAuthUnauthorized() *VerifyAuthUnauthorized {
 	return &VerifyAuthUnauthorized{}
 }
 
-/*VerifyAuthUnauthorized handles this case with default header values.
+/* VerifyAuthUnauthorized describes a response with status code 401, with default header values.
 
 Unauthorized if token is invalid
 */
@@ -95,6 +94,9 @@ type VerifyAuthUnauthorized struct {
 
 func (o *VerifyAuthUnauthorized) Error() string {
 	return fmt.Sprintf("[GET /auth/verify/{token}][%d] verifyAuthUnauthorized  %+v", 401, o.Payload)
+}
+func (o *VerifyAuthUnauthorized) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *VerifyAuthUnauthorized) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -116,7 +118,7 @@ func NewVerifyAuthDefault(code int) *VerifyAuthDefault {
 	}
 }
 
-/*VerifyAuthDefault handles this case with default header values.
+/* VerifyAuthDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -133,6 +135,9 @@ func (o *VerifyAuthDefault) Code() int {
 
 func (o *VerifyAuthDefault) Error() string {
 	return fmt.Sprintf("[GET /auth/verify/{token}][%d] VerifyAuth default  %+v", o._statusCode, o.Payload)
+}
+func (o *VerifyAuthDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *VerifyAuthDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

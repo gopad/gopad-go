@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/gopad/gopad-go/models"
+	"github.com/gopad/gopad-go/v1/models"
 )
 
 // ListUserTeamsReader is a Reader for the ListUserTeams structure.
@@ -24,21 +23,18 @@ type ListUserTeamsReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *ListUserTeamsReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-
 	case 200:
 		result := NewListUserTeamsOK()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
-
 	case 403:
 		result := NewListUserTeamsForbidden()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		result := NewListUserTeamsDefault(response.Code())
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -56,7 +52,7 @@ func NewListUserTeamsOK() *ListUserTeamsOK {
 	return &ListUserTeamsOK{}
 }
 
-/*ListUserTeamsOK handles this case with default header values.
+/* ListUserTeamsOK describes a response with status code 200, with default header values.
 
 A collection of user teams
 */
@@ -66,6 +62,9 @@ type ListUserTeamsOK struct {
 
 func (o *ListUserTeamsOK) Error() string {
 	return fmt.Sprintf("[GET /users/{user_id}/teams][%d] listUserTeamsOK  %+v", 200, o.Payload)
+}
+func (o *ListUserTeamsOK) GetPayload() []*models.TeamUser {
+	return o.Payload
 }
 
 func (o *ListUserTeamsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -83,7 +82,7 @@ func NewListUserTeamsForbidden() *ListUserTeamsForbidden {
 	return &ListUserTeamsForbidden{}
 }
 
-/*ListUserTeamsForbidden handles this case with default header values.
+/* ListUserTeamsForbidden describes a response with status code 403, with default header values.
 
 User is not authorized
 */
@@ -93,6 +92,9 @@ type ListUserTeamsForbidden struct {
 
 func (o *ListUserTeamsForbidden) Error() string {
 	return fmt.Sprintf("[GET /users/{user_id}/teams][%d] listUserTeamsForbidden  %+v", 403, o.Payload)
+}
+func (o *ListUserTeamsForbidden) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ListUserTeamsForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
@@ -114,7 +116,7 @@ func NewListUserTeamsDefault(code int) *ListUserTeamsDefault {
 	}
 }
 
-/*ListUserTeamsDefault handles this case with default header values.
+/* ListUserTeamsDefault describes a response with status code -1, with default header values.
 
 Some error unrelated to the handler
 */
@@ -131,6 +133,9 @@ func (o *ListUserTeamsDefault) Code() int {
 
 func (o *ListUserTeamsDefault) Error() string {
 	return fmt.Sprintf("[GET /users/{user_id}/teams][%d] ListUserTeams default  %+v", o._statusCode, o.Payload)
+}
+func (o *ListUserTeamsDefault) GetPayload() *models.GeneralError {
+	return o.Payload
 }
 
 func (o *ListUserTeamsDefault) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

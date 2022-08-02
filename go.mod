@@ -1,6 +1,6 @@
 module github.com/gopad/gopad-go/v1
 
-go 1.18
+go 1.19
 
 require (
 	github.com/go-openapi/errors v0.20.2

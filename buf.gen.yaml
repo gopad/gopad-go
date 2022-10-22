@@ -1,0 +1,20 @@
+---
+version: v1
+
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/gopad/gopad-go/gopad
+
+plugins:
+  - remote: buf.build/bufbuild/plugins/connect-go:v1.1.0-1
+    out: gopad
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/library/plugins/go:v1.27.1-1
+    out: gopad
+    opt:
+      - paths=source_relative
+
+...

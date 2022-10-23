@@ -3,7 +3,6 @@ exclude_paths:
   - .bingo/**
   - .github/**
   - changelog/**
-  - hack/**
 
   - CHANGELOG.md
 

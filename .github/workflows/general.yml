@@ -22,7 +22,7 @@ jobs:
         id: golang
         uses: actions/setup-go@v3
         with:
-          go-version: ^1.18.0
+          go-version: ^1.19.0
 
       - name: Run generate
         id: generate
@@ -48,11 +48,12 @@ jobs:
         id: test
         run: make test
 
-      # - name: Coverage report
-      #   id: coverage
-      #   uses: codacy/codacy-coverage-reporter-action@v1
-      #   with:
-      #     project-token: ${{ secrets.CODACY_TOKEN }}
-      #     coverage-reports: coverage.out
+      - name: Coverage report
+        id: codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage.out
+          force-coverage-parser: go
 
 ...

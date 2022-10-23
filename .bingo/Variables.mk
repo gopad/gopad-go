@@ -29,6 +29,12 @@ $(CALENS): $(BINGO_DIR)/calens.mod
 	@echo "(re)installing $(GOBIN)/calens-v0.2.0"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=calens.mod -o=$(GOBIN)/calens-v0.2.0 "github.com/restic/calens"
 
+EMBEDMD := $(GOBIN)/embedmd-v1.0.0
+$(EMBEDMD): $(BINGO_DIR)/embedmd.mod
+	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
+	@echo "(re)installing $(GOBIN)/embedmd-v1.0.0"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=embedmd.mod -o=$(GOBIN)/embedmd-v1.0.0 "github.com/campoy/embedmd"
+
 REVIVE := $(GOBIN)/revive-v1.2.4
 $(REVIVE): $(BINGO_DIR)/revive.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.

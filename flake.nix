@@ -1,5 +1,5 @@
 {
-  description = "Nix configuration for Gopad Go";
+  description = "Nix flake for development";
 
   inputs = {
     nixpkgs = {
@@ -12,9 +12,7 @@
   };
 
   outputs = { self, nixpkgs, utils, ... }@inputs:
-    {
-
-    } // utils.lib.eachDefaultSystem (system:
+    utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in
@@ -23,6 +21,7 @@
           buildInputs = with pkgs; [
             buf
             gnumake
+            go_1_19
           ];
         };
       }

@@ -58,3 +58,7 @@ test:
 .PHONY: build
 build: $(SOURCES)
 	go build -v -tags '$(TAGS)' -ldflags '$(LDFLAGS)' -o /dev/null ./...
+
+.PHONY: buf
+buf:
+	buf generate buf.build/gopad/api

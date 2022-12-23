@@ -29,7 +29,8 @@ branches:
       required_status_checks:
         strict: true
         contexts:
-          - testing
+          - frontend
+          - backend
       enforce_admins: false
       restrictions:
         apps:

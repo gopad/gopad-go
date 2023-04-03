@@ -3,7 +3,7 @@ module github.com/gopad/gopad-go
 go 1.19
 
 require (
-	github.com/bufbuild/connect-go v1.5.2
+	github.com/bufbuild/connect-go v1.6.0
 	github.com/stretchr/testify v1.8.2
 	google.golang.org/protobuf v1.30.0
 )

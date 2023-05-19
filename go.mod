@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/bufbuild/connect-go v1.7.0
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.3
 	google.golang.org/protobuf v1.30.0
 )
 

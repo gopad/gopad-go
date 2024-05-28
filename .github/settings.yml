@@ -3,7 +3,7 @@ repository:
   name: gopad-go
   description: "Gopad: SDK for Golang"
   homepage: https://gopad.eu
-  topics: gopad, etherpad, sdk, client, connect, grpc, go, golang
+  topics: gopad, etherpad, sdk, openapi, go, golang
 
   private: false
   has_issues: true
@@ -34,6 +34,7 @@ branches:
       restrictions:
         apps:
           - renovate
+          - gopad
         users: []
         teams:
           - admins

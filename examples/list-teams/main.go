@@ -4,26 +4,28 @@ import (
 	"context"
 	"log"
 
-	connect "github.com/bufbuild/connect-go"
 	"github.com/gopad/gopad-go/gopad"
-	teamsv1 "github.com/gopad/gopad-go/gopad/teams/v1"
 )
 
 func main() {
-	client := gopad.New(
-		gopad.WithBaseURL("http://localhost:8080"),
+	client, err := gopad.NewClientWithResponses(
+		"http://localhost:8080/api/v1",
 	)
 
-	resp, err := client.Teams.List(
+	if err != nil {
+		log.Fatalf("Failed to initialize client: %s", err)
+	}
+
+	resp, err := client.ListTeamsWithResponse(
 		context.Background(),
-		&connect.Request[teamsv1.ListRequest]{},
+		&gopad.ListTeamsParams{},
 	)
 
 	if err != nil {
 		log.Fatalf("Failed to get teams: %s", err)
 	}
 
-	for _, team := range resp.Msg.Teams {
-		log.Println(team.Name)
+	for _, t := range gopad.FromPtr(resp.JSON200.Teams) {
+		log.Println(gopad.FromPtr(t.Name))
 	}
 }

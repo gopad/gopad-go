@@ -1,12 +1,15 @@
 include .bingo/Variables.mk
 
+OPENAPI_VERSION ?= 1.0.0-alpha1
+OPENAPI_URL ?= https://dl.gopad.eu/openapi/$(OPENAPI_VERSION).yml
+
 SHELL := bash
 NAME := gopad-go
 IMPORT := github.com/gopad/$(NAME)
 
 GOBUILD ?= CGO_ENABLED=0 go build
 PACKAGES ?= $(shell go list ./...)
-SOURCES ?= $(shell find . -name "*.go" -type f)
+SOURCES ?= $(shell find . -name "*.go" -type f -not -path */.devenv/* -not -path */.direnv/*)
 GENERATE ?= $(PACKAGES)
 TAGS ?= netgo
 
@@ -31,6 +34,10 @@ fmt:
 vet:
 	go vet $(PACKAGES)
 
+.PHONY: golangci
+golangci: $(GOLANGCI_LINT)
+	$(GOLANGCI_LINT) run ./...
+
 .PHONY: staticcheck
 staticcheck: $(STATICCHECK)
 	$(STATICCHECK) -tags '$(TAGS)' $(PACKAGES)
@@ -43,13 +50,9 @@ lint: $(REVIVE)
 generate:
 	go generate $(GENERATE)
 
-.PHONY: changelog
-changelog: $(CALENS)
-	$(CALENS) >| CHANGELOG.md
-
-.PHONY: embedmd
-embedmd: $(EMBEDMD)
-	$(EMBEDMD) -w README.md
+.PHONY: openapi
+openapi: $(OAPI_CODEGEN)
+	$(OAPI_CODEGEN) -generate types,client -package gopad -o gopad/gen.go $(OPENAPI_URL)
 
 .PHONY: test
 test:
@@ -58,7 +61,3 @@ test:
 .PHONY: build
 build: $(SOURCES)
 	go build -v -tags '$(TAGS)' -ldflags '$(LDFLAGS)' -o /dev/null ./...
-
-.PHONY: buf
-buf:
-	buf generate buf.build/gopad/api

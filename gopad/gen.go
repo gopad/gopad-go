@@ -19,6 +19,7 @@ import (
 
 const (
 	BasicScopes  = "Basic.Scopes"
+	BearerScopes = "Bearer.Scopes"
 	CookieScopes = "Cookie.Scopes"
 	HeaderScopes = "Header.Scopes"
 )
@@ -98,11 +99,45 @@ const (
 	ListUserTeamsParamsOrderDesc ListUserTeamsParamsOrder = "desc"
 )
 
+// AuthLogin defines model for auth_login.
+type AuthLogin struct {
+	Password string `json:"password"`
+	Username string `json:"username"`
+}
+
+// AuthToken defines model for auth_token.
+type AuthToken struct {
+	ExpiresAt *time.Time `json:"expires_at,omitempty"`
+	Token     *string    `json:"token,omitempty"`
+}
+
+// AuthVerify defines model for auth_verify.
+type AuthVerify struct {
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+	Username  *string    `json:"username,omitempty"`
+}
+
 // Notification Generic response for errors and validations
 type Notification struct {
 	Errors  *[]Validation `json:"errors,omitempty"`
 	Message *string       `json:"message,omitempty"`
 	Status  *int          `json:"status,omitempty"`
+}
+
+// Profile Model to represent profile
+type Profile struct {
+	Active    *bool       `json:"active,omitempty"`
+	Admin     *bool       `json:"admin,omitempty"`
+	Auths     *[]UserAuth `json:"auths,omitempty"`
+	CreatedAt *time.Time  `json:"created_at,omitempty"`
+	Email     *string     `json:"email,omitempty"`
+	Fullname  *string     `json:"fullname,omitempty"`
+	Id        *string     `json:"id,omitempty"`
+	Password  *string     `json:"password,omitempty"`
+	Profile   *string     `json:"profile,omitempty"`
+	Teams     *[]UserTeam `json:"teams,omitempty"`
+	UpdatedAt *time.Time  `json:"updated_at,omitempty"`
+	Username  *string     `json:"username,omitempty"`
 }
 
 // Team Model to represent team
@@ -321,6 +356,12 @@ type ListUserTeamsParamsSort string
 // ListUserTeamsParamsOrder defines parameters for ListUserTeams.
 type ListUserTeamsParamsOrder string
 
+// LoginAuthJSONRequestBody defines body for LoginAuth for application/json ContentType.
+type LoginAuthJSONRequestBody = AuthLogin
+
+// UpdateProfileJSONRequestBody defines body for UpdateProfile for application/json ContentType.
+type UpdateProfileJSONRequestBody = Profile
+
 // CreateTeamJSONRequestBody defines body for CreateTeam for application/json ContentType.
 type CreateTeamJSONRequestBody = Team
 
@@ -424,11 +465,33 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 
 // The interface specification for the client above.
 type ClientInterface interface {
+	// LoginAuthWithBody request with any body
+	LoginAuthWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	LoginAuth(ctx context.Context, body LoginAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RefreshAuth request
+	RefreshAuth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// VerifyAuth request
+	VerifyAuth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ExternalCallback request
 	ExternalCallback(ctx context.Context, provider string, params *ExternalCallbackParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ExternalInitialize request
 	ExternalInitialize(ctx context.Context, provider string, params *ExternalInitializeParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ShowProfile request
+	ShowProfile(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateProfileWithBody request with any body
+	UpdateProfileWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateProfile(ctx context.Context, body UpdateProfileJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TokenProfile request
+	TokenProfile(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListTeams request
 	ListTeams(ctx context.Context, params *ListTeamsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -505,6 +568,54 @@ type ClientInterface interface {
 	PermitUserTeam(ctx context.Context, userId string, body PermitUserTeamJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
+func (c *Client) LoginAuthWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewLoginAuthRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) LoginAuth(ctx context.Context, body LoginAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewLoginAuthRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) RefreshAuth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRefreshAuthRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) VerifyAuth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewVerifyAuthRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) ExternalCallback(ctx context.Context, provider string, params *ExternalCallbackParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewExternalCallbackRequest(c.Server, provider, params)
 	if err != nil {
@@ -519,6 +630,54 @@ func (c *Client) ExternalCallback(ctx context.Context, provider string, params *
 
 func (c *Client) ExternalInitialize(ctx context.Context, provider string, params *ExternalInitializeParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewExternalInitializeRequest(c.Server, provider, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ShowProfile(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewShowProfileRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateProfileWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateProfileRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateProfile(ctx context.Context, body UpdateProfileJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateProfileRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) TokenProfile(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTokenProfileRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -865,6 +1024,100 @@ func (c *Client) PermitUserTeam(ctx context.Context, userId string, body PermitU
 	return c.Client.Do(req)
 }
 
+// NewLoginAuthRequest calls the generic LoginAuth builder with application/json body
+func NewLoginAuthRequest(server string, body LoginAuthJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewLoginAuthRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewLoginAuthRequestWithBody generates requests for LoginAuth with any type of body
+func NewLoginAuthRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/auth/login")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewRefreshAuthRequest generates requests for RefreshAuth
+func NewRefreshAuthRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/auth/refresh")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewVerifyAuthRequest generates requests for VerifyAuth
+func NewVerifyAuthRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/auth/verify")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewExternalCallbackRequest generates requests for ExternalCallback
 func NewExternalCallbackRequest(server string, provider string, params *ExternalCallbackParams) (*http.Request, error) {
 	var err error
@@ -983,6 +1236,100 @@ func NewExternalInitializeRequest(server string, provider string, params *Extern
 		}
 
 		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewShowProfileRequest generates requests for ShowProfile
+func NewShowProfileRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/profile/self")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateProfileRequest calls the generic UpdateProfile builder with application/json body
+func NewUpdateProfileRequest(server string, body UpdateProfileJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateProfileRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewUpdateProfileRequestWithBody generates requests for UpdateProfile with any type of body
+func NewUpdateProfileRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/profile/self")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewTokenProfileRequest generates requests for TokenProfile
+func NewTokenProfileRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/profile/token")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -2094,11 +2441,33 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
+	// LoginAuthWithBodyWithResponse request with any body
+	LoginAuthWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*LoginAuthResponse, error)
+
+	LoginAuthWithResponse(ctx context.Context, body LoginAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*LoginAuthResponse, error)
+
+	// RefreshAuthWithResponse request
+	RefreshAuthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*RefreshAuthResponse, error)
+
+	// VerifyAuthWithResponse request
+	VerifyAuthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VerifyAuthResponse, error)
+
 	// ExternalCallbackWithResponse request
 	ExternalCallbackWithResponse(ctx context.Context, provider string, params *ExternalCallbackParams, reqEditors ...RequestEditorFn) (*ExternalCallbackResponse, error)
 
 	// ExternalInitializeWithResponse request
 	ExternalInitializeWithResponse(ctx context.Context, provider string, params *ExternalInitializeParams, reqEditors ...RequestEditorFn) (*ExternalInitializeResponse, error)
+
+	// ShowProfileWithResponse request
+	ShowProfileWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ShowProfileResponse, error)
+
+	// UpdateProfileWithBodyWithResponse request with any body
+	UpdateProfileWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateProfileResponse, error)
+
+	UpdateProfileWithResponse(ctx context.Context, body UpdateProfileJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateProfileResponse, error)
+
+	// TokenProfileWithResponse request
+	TokenProfileWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*TokenProfileResponse, error)
 
 	// ListTeamsWithResponse request
 	ListTeamsWithResponse(ctx context.Context, params *ListTeamsParams, reqEditors ...RequestEditorFn) (*ListTeamsResponse, error)
@@ -2175,6 +2544,81 @@ type ClientWithResponsesInterface interface {
 	PermitUserTeamWithResponse(ctx context.Context, userId string, body PermitUserTeamJSONRequestBody, reqEditors ...RequestEditorFn) (*PermitUserTeamResponse, error)
 }
 
+type LoginAuthResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AuthToken
+	JSON401      *Notification
+	JSON500      *Notification
+	JSONDefault  *Notification
+}
+
+// Status returns HTTPResponse.Status
+func (r LoginAuthResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r LoginAuthResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RefreshAuthResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AuthToken
+	JSON401      *Notification
+	JSON500      *Notification
+	JSONDefault  *Notification
+}
+
+// Status returns HTTPResponse.Status
+func (r RefreshAuthResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RefreshAuthResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type VerifyAuthResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AuthVerify
+	JSON401      *Notification
+	JSON500      *Notification
+	JSONDefault  *Notification
+}
+
+// Status returns HTTPResponse.Status
+func (r VerifyAuthResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r VerifyAuthResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ExternalCallbackResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -2217,6 +2661,82 @@ func (r ExternalInitializeResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ExternalInitializeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ShowProfileResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Profile
+	JSON403      *Notification
+	JSON500      *Notification
+	JSONDefault  *Notification
+}
+
+// Status returns HTTPResponse.Status
+func (r ShowProfileResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ShowProfileResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateProfileResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Profile
+	JSON403      *Notification
+	JSON422      *Notification
+	JSON500      *Notification
+	JSONDefault  *Notification
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateProfileResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateProfileResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type TokenProfileResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AuthToken
+	JSON403      *Notification
+	JSON500      *Notification
+	JSONDefault  *Notification
+}
+
+// Status returns HTTPResponse.Status
+func (r TokenProfileResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TokenProfileResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -2703,6 +3223,41 @@ func (r PermitUserTeamResponse) StatusCode() int {
 	return 0
 }
 
+// LoginAuthWithBodyWithResponse request with arbitrary body returning *LoginAuthResponse
+func (c *ClientWithResponses) LoginAuthWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*LoginAuthResponse, error) {
+	rsp, err := c.LoginAuthWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseLoginAuthResponse(rsp)
+}
+
+func (c *ClientWithResponses) LoginAuthWithResponse(ctx context.Context, body LoginAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*LoginAuthResponse, error) {
+	rsp, err := c.LoginAuth(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseLoginAuthResponse(rsp)
+}
+
+// RefreshAuthWithResponse request returning *RefreshAuthResponse
+func (c *ClientWithResponses) RefreshAuthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*RefreshAuthResponse, error) {
+	rsp, err := c.RefreshAuth(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRefreshAuthResponse(rsp)
+}
+
+// VerifyAuthWithResponse request returning *VerifyAuthResponse
+func (c *ClientWithResponses) VerifyAuthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*VerifyAuthResponse, error) {
+	rsp, err := c.VerifyAuth(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseVerifyAuthResponse(rsp)
+}
+
 // ExternalCallbackWithResponse request returning *ExternalCallbackResponse
 func (c *ClientWithResponses) ExternalCallbackWithResponse(ctx context.Context, provider string, params *ExternalCallbackParams, reqEditors ...RequestEditorFn) (*ExternalCallbackResponse, error) {
 	rsp, err := c.ExternalCallback(ctx, provider, params, reqEditors...)
@@ -2719,6 +3274,41 @@ func (c *ClientWithResponses) ExternalInitializeWithResponse(ctx context.Context
 		return nil, err
 	}
 	return ParseExternalInitializeResponse(rsp)
+}
+
+// ShowProfileWithResponse request returning *ShowProfileResponse
+func (c *ClientWithResponses) ShowProfileWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ShowProfileResponse, error) {
+	rsp, err := c.ShowProfile(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseShowProfileResponse(rsp)
+}
+
+// UpdateProfileWithBodyWithResponse request with arbitrary body returning *UpdateProfileResponse
+func (c *ClientWithResponses) UpdateProfileWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateProfileResponse, error) {
+	rsp, err := c.UpdateProfileWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateProfileResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateProfileWithResponse(ctx context.Context, body UpdateProfileJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateProfileResponse, error) {
+	rsp, err := c.UpdateProfile(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateProfileResponse(rsp)
+}
+
+// TokenProfileWithResponse request returning *TokenProfileResponse
+func (c *ClientWithResponses) TokenProfileWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*TokenProfileResponse, error) {
+	rsp, err := c.TokenProfile(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTokenProfileResponse(rsp)
 }
 
 // ListTeamsWithResponse request returning *ListTeamsResponse
@@ -2963,6 +3553,147 @@ func (c *ClientWithResponses) PermitUserTeamWithResponse(ctx context.Context, us
 	return ParsePermitUserTeamResponse(rsp)
 }
 
+// ParseLoginAuthResponse parses an HTTP response from a LoginAuthWithResponse call
+func ParseLoginAuthResponse(rsp *http.Response) (*LoginAuthResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &LoginAuthResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AuthToken
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRefreshAuthResponse parses an HTTP response from a RefreshAuthWithResponse call
+func ParseRefreshAuthResponse(rsp *http.Response) (*RefreshAuthResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RefreshAuthResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AuthToken
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseVerifyAuthResponse parses an HTTP response from a VerifyAuthWithResponse call
+func ParseVerifyAuthResponse(rsp *http.Response) (*VerifyAuthResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &VerifyAuthResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AuthVerify
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseExternalCallbackResponse parses an HTTP response from a ExternalCallbackWithResponse call
 func ParseExternalCallbackResponse(rsp *http.Response) (*ExternalCallbackResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -3030,6 +3761,154 @@ func ParseExternalInitializeResponse(rsp *http.Response) (*ExternalInitializeRes
 			return nil, err
 		}
 		response.JSON412 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseShowProfileResponse parses an HTTP response from a ShowProfileWithResponse call
+func ParseShowProfileResponse(rsp *http.Response) (*ShowProfileResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ShowProfileResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Profile
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateProfileResponse parses an HTTP response from a UpdateProfileWithResponse call
+func ParseUpdateProfileResponse(rsp *http.Response) (*UpdateProfileResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateProfileResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Profile
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTokenProfileResponse parses an HTTP response from a TokenProfileWithResponse call
+func ParseTokenProfileResponse(rsp *http.Response) (*TokenProfileResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TokenProfileResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AuthToken
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest Notification
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest Notification

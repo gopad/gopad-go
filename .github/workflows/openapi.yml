@@ -4,7 +4,7 @@ name: openapi
 "on":
   workflow_dispatch:
   schedule:
-    - cron: "0 8 * * 1"
+    - cron: "0 8 * * *"
 
 permissions:
   contents: write

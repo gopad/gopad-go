@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/gopad/gopad-go/compare/v1.0.0...v1.1.0) (2024-06-02)
+
+
+### Features
+
+* automated openapi client update ([479714e](https://github.com/gopad/gopad-go/commit/479714e136d369754f1b52d8e7eb86de3cd5128c))
+
 ## 1.0.0 (2024-05-28)
 
 

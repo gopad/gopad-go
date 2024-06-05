@@ -150,7 +150,7 @@ type Team struct {
 	Users     *[]UserTeam `json:"users,omitempty"`
 }
 
-// TeamUserParams Parameters to attach or remove team user
+// TeamUserParams Parameters to attach or unlink team user
 type TeamUserParams struct {
 	Perm *TeamUserParamsPerm `json:"perm,omitempty"`
 	User string              `json:"user"`
@@ -215,7 +215,7 @@ type UserTeam struct {
 // UserTeamPerm defines model for UserTeam.Perm.
 type UserTeamPerm string
 
-// UserTeamParams Parameters to attach or remove user team
+// UserTeamParams Parameters to attach or unlink user team
 type UserTeamParams struct {
 	Perm *UserTeamParamsPerm `json:"perm,omitempty"`
 	Team string              `json:"team"`

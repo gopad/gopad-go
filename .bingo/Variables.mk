@@ -23,11 +23,11 @@ $(GOLANGCI_LINT): $(BINGO_DIR)/golangci-lint.mod
 	@echo "(re)installing $(GOBIN)/golangci-lint-v1.59.0"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=golangci-lint.mod -o=$(GOBIN)/golangci-lint-v1.59.0 "github.com/golangci/golangci-lint/cmd/golangci-lint"
 
-OAPI_CODEGEN := $(GOBIN)/oapi-codegen-v2.1.0
+OAPI_CODEGEN := $(GOBIN)/oapi-codegen-v2.2.0
 $(OAPI_CODEGEN): $(BINGO_DIR)/oapi-codegen.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/oapi-codegen-v2.1.0"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=oapi-codegen.mod -o=$(GOBIN)/oapi-codegen-v2.1.0 "github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen"
+	@echo "(re)installing $(GOBIN)/oapi-codegen-v2.2.0"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=oapi-codegen.mod -o=$(GOBIN)/oapi-codegen-v2.2.0 "github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen"
 
 REVIVE := $(GOBIN)/revive-v1.3.7
 $(REVIVE): $(BINGO_DIR)/revive.mod

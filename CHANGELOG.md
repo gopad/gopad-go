@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/gopad/gopad-go/compare/v1.1.0...v1.2.0) (2024-06-10)
+
+
+### Features
+
+* upgrade oapi-codegen to latest version ([153d608](https://github.com/gopad/gopad-go/commit/153d6088bfc093a3c316b6c86c17fa49f5d0b6fc))
+
 ## [1.1.0](https://github.com/gopad/gopad-go/compare/v1.0.0...v1.1.0) (2024-06-02)
 
 

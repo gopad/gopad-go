@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/gopad/gopad-go/compare/v1.2.0...v1.3.0) (2024-10-07)
+
+
+### Features
+
+* upgrade all deps and tools, make linting happy again ([e990691](https://github.com/gopad/gopad-go/commit/e990691c55d60a3ed95b404079fd6419b9e36dcb))
+
 ## [1.2.0](https://github.com/gopad/gopad-go/compare/v1.1.0...v1.2.0) (2024-06-10)
 
 

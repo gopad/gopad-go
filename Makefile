@@ -1,5 +1,3 @@
-include .bingo/Variables.mk
-
 OPENAPI_VERSION ?= 1.0.0-alpha1
 OPENAPI_URL ?= https://dl.gopad.eu/openapi/$(OPENAPI_VERSION).yml
 
@@ -35,24 +33,20 @@ vet:
 	go vet $(PACKAGES)
 
 .PHONY: golangci
-golangci: $(GOLANGCI_LINT)
-	$(GOLANGCI_LINT) run ./...
-
-.PHONY: staticcheck
-staticcheck: $(STATICCHECK)
-	$(STATICCHECK) -tags '$(TAGS)' $(PACKAGES)
+golangci:
+	go tool github.com/golangci/golangci-lint/cmd/golangci-lint run ./...
 
 .PHONY: lint
-lint: $(REVIVE)
-	for PKG in $(PACKAGES); do $(REVIVE) -config revive.toml -set_exit_status $$PKG || exit 1; done;
+lint:
+	for PKG in $(PACKAGES); do go tool github.com/mgechev/revive -config revive.toml -set_exit_status $$PKG || exit 1; done;
 
 .PHONY: generate
 generate:
 	go generate $(GENERATE)
 
 .PHONY: openapi
-openapi: $(OAPI_CODEGEN)
-	$(OAPI_CODEGEN) -generate types,client -package gopad -o gopad/gen.go $(OPENAPI_URL)
+openapi:
+	go tool github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -templates hack/templates/ -generate types,client -package gopad -o gopad/gen.go $(OPENAPI_URL)
 
 .PHONY: test
 test:

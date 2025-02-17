@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/gopad/gopad-go/compare/v1.3.0...v1.4.0) (2025-02-17)
+
+
+### Features
+
+* upgrade whole ci stack and use latest go version ([eef7b2a](https://github.com/gopad/gopad-go/commit/eef7b2ab9a9e34c7cb05a4c9ab02ada6c1476104))
+
 ## [1.3.0](https://github.com/gopad/gopad-go/compare/v1.2.0...v1.3.0) (2024-10-07)
 
 

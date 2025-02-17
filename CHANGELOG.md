@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/gopad/gopad-go/compare/v1.4.0...v1.5.0) (2025-02-17)
+
+
+### Features
+
+* upgrade openapi and use more simple architecture ([8e2c24f](https://github.com/gopad/gopad-go/commit/8e2c24fbb1ac7daf829bebcfb65cc9e3c8bab1f3))
+
 ## [1.4.0](https://github.com/gopad/gopad-go/compare/v1.3.0...v1.4.0) (2025-02-17)
 
 

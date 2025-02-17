@@ -16,16 +16,16 @@ func main() {
 		log.Fatalf("Failed to initialize client: %s", err)
 	}
 
-	resp, err := client.ListTeamsWithResponse(
+	resp, err := client.ListGroupsWithResponse(
 		context.Background(),
-		&gopad.ListTeamsParams{},
+		&gopad.ListGroupsParams{},
 	)
 
 	if err != nil {
 		log.Fatalf("Failed to get teams: %s", err)
 	}
 
-	for _, t := range gopad.FromPtr(resp.JSON200.Teams) {
+	for _, t := range resp.JSON200.Groups {
 		log.Println(gopad.FromPtr(t.Name))
 	}
 }

@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("Failed to get users: %s", err)
 	}
 
-	for _, t := range gopad.FromPtr(resp.JSON200.Users) {
+	for _, t := range resp.JSON200.Users {
 		log.Println(gopad.FromPtr(t.Username))
 	}
 }

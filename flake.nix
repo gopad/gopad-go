@@ -69,7 +69,8 @@
 
                     golangci-lint = {
                       enable = true;
-                      entry = "go tool github.com/golangci/golangci-lint/cmd/golangci-lint run";
+                      entry = "go tool github.com/golangci/golangci-lint/cmd/golangci-lint run ./...";
+                      pass_filenames = false;
                     };
                   };
                 };

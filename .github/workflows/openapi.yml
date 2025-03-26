@@ -34,8 +34,14 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Setup task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run openapi
-        run: make openapi
+        run: task openapi
 
       - name: Create request
         id: pr

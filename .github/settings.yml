@@ -1,7 +1,7 @@
 ---
 repository:
   name: gopad-go
-  description: "Gopad: SDK for Golang"
+  description: Golang SDK for Gopad
   homepage: https://gopad.eu
   topics: gopad, etherpad, sdk, openapi, go, golang
 

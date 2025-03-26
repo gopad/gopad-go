@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/gopad/gopad-go/compare/v1.5.0...v1.6.0) (2025-03-26)
+
+
+### Features
+
+* regenerate sdk ([bf070c9](https://github.com/gopad/gopad-go/commit/bf070c9bb44ea48b7d18a2112fde0ba44f6831e3))
+
 ## [1.5.0](https://github.com/gopad/gopad-go/compare/v1.4.0...v1.5.0) (2025-02-17)
 
 

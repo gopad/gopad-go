@@ -313,6 +313,9 @@ type AlreadyAttachedError = Notification
 // BadCredentialsError Generic response for errors and validations
 type BadCredentialsError = Notification
 
+// BadRequestError Generic response for errors and validations
+type BadRequestError = Notification
+
 // GroupResponse Model to represent group
 type GroupResponse = Group
 
@@ -431,6 +434,11 @@ type LoginAuthBody struct {
 	Username string `json:"username"`
 }
 
+// RedirectAuthBody defines model for RedirectAuthBody.
+type RedirectAuthBody struct {
+	Token string `json:"token"`
+}
+
 // UpdateGroupBody defines model for UpdateGroupBody.
 type UpdateGroupBody struct {
 	Name *string `json:"name,omitempty"`
@@ -470,6 +478,11 @@ type UserGroupPermBody struct {
 type LoginAuthJSONBody struct {
 	Password string `json:"password"`
 	Username string `json:"username"`
+}
+
+// RedirectAuthJSONBody defines parameters for RedirectAuth.
+type RedirectAuthJSONBody struct {
+	Token string `json:"token"`
 }
 
 // CallbackProviderParams defines parameters for CallbackProvider.
@@ -642,6 +655,9 @@ type PermitUserGroupJSONBody struct {
 // LoginAuthJSONRequestBody defines body for LoginAuth for application/json ContentType.
 type LoginAuthJSONRequestBody LoginAuthJSONBody
 
+// RedirectAuthJSONRequestBody defines body for RedirectAuth for application/json ContentType.
+type RedirectAuthJSONRequestBody RedirectAuthJSONBody
+
 // CreateGroupJSONRequestBody defines body for CreateGroup for application/json ContentType.
 type CreateGroupJSONRequestBody CreateGroupJSONBody
 
@@ -755,6 +771,11 @@ type ClientInterface interface {
 
 	// ListProviders request
 	ListProviders(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RedirectAuthWithBody request with any body
+	RedirectAuthWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RedirectAuth(ctx context.Context, body RedirectAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// RefreshAuth request
 	RefreshAuth(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -880,6 +901,30 @@ func (c *Client) LoginAuth(ctx context.Context, body LoginAuthJSONRequestBody, r
 
 func (c *Client) ListProviders(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListProvidersRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) RedirectAuthWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRedirectAuthRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) RedirectAuth(ctx context.Context, body RedirectAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRedirectAuthRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1385,6 +1430,46 @@ func NewListProvidersRequest(server string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewRedirectAuthRequest calls the generic RedirectAuth builder with application/json body
+func NewRedirectAuthRequest(server string, body RedirectAuthJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRedirectAuthRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewRedirectAuthRequestWithBody generates requests for RedirectAuth with any type of body
+func NewRedirectAuthRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/auth/redirect")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -2752,6 +2837,11 @@ type ClientWithResponsesInterface interface {
 	// ListProvidersWithResponse request
 	ListProvidersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*ListProvidersResponse, error)
 
+	// RedirectAuthWithBodyWithResponse request with any body
+	RedirectAuthWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RedirectAuthResponse, error)
+
+	RedirectAuthWithResponse(ctx context.Context, body RedirectAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*RedirectAuthResponse, error)
+
 	// RefreshAuthWithResponse request
 	RefreshAuthWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*RefreshAuthResponse, error)
 
@@ -2854,6 +2944,7 @@ type LoginAuthResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *LoginResponse
+	JSON400      *BadRequestError
 	JSON401      *BadCredentialsError
 	JSON500      *InternalServerError
 }
@@ -2890,6 +2981,31 @@ func (r ListProvidersResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ListProvidersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RedirectAuthResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *TokenResponse
+	JSON400      *BadRequestError
+	JSON401      *InvalidTokenError
+	JSON500      *InternalServerError
+}
+
+// Status returns HTTPResponse.Status
+func (r RedirectAuthResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RedirectAuthResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -3014,6 +3130,7 @@ type CreateGroupResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *GroupResponse
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON422      *ValidationError
 	JSON500      *InternalServerError
@@ -3090,6 +3207,7 @@ type UpdateGroupResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *GroupResponse
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON422      *ValidationError
@@ -3116,6 +3234,7 @@ type DeleteGroupFromUserResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *SuccessMessage
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON412      *NotAttachedError
@@ -3167,6 +3286,7 @@ type AttachGroupToUserResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *SuccessMessage
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON412      *AlreadyAttachedError
@@ -3194,6 +3314,7 @@ type PermitGroupUserResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *SuccessMessage
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON412      *NotAttachedError
@@ -3245,6 +3366,7 @@ type UpdateProfileResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *ProfileResponse
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON422      *ValidationError
 	JSON500      *InternalServerError
@@ -3318,6 +3440,7 @@ type CreateUserResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *UserResponse
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON422      *ValidationError
 	JSON500      *InternalServerError
@@ -3394,6 +3517,7 @@ type UpdateUserResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *UserResponse
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON422      *ValidationError
@@ -3420,6 +3544,7 @@ type DeleteUserFromGroupResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *SuccessMessage
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON412      *NotAttachedError
@@ -3471,6 +3596,7 @@ type AttachUserToGroupResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *SuccessMessage
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON412      *AlreadyAttachedError
@@ -3498,6 +3624,7 @@ type PermitUserGroupResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *SuccessMessage
+	JSON400      *BadRequestError
 	JSON403      *NotAuthorizedError
 	JSON404      *NotFoundError
 	JSON412      *NotAttachedError
@@ -3545,6 +3672,23 @@ func (c *ClientWithResponses) ListProvidersWithResponse(ctx context.Context, req
 		return nil, err
 	}
 	return ParseListProvidersResponse(rsp)
+}
+
+// RedirectAuthWithBodyWithResponse request with arbitrary body returning *RedirectAuthResponse
+func (c *ClientWithResponses) RedirectAuthWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RedirectAuthResponse, error) {
+	rsp, err := c.RedirectAuthWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRedirectAuthResponse(rsp)
+}
+
+func (c *ClientWithResponses) RedirectAuthWithResponse(ctx context.Context, body RedirectAuthJSONRequestBody, reqEditors ...RequestEditorFn) (*RedirectAuthResponse, error) {
+	rsp, err := c.RedirectAuth(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRedirectAuthResponse(rsp)
 }
 
 // RefreshAuthWithResponse request returning *RefreshAuthResponse
@@ -3881,6 +4025,13 @@ func ParseLoginAuthResponse(rsp *http.Response) (*LoginAuthResponse, error) {
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
 		var dest BadCredentialsError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -3920,6 +4071,53 @@ func ParseListProvidersResponse(rsp *http.Response) (*ListProvidersResponse, err
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRedirectAuthResponse parses an HTTP response from a RedirectAuthWithResponse call
+func ParseRedirectAuthResponse(rsp *http.Response) (*RedirectAuthResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RedirectAuthResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TokenResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest InvalidTokenError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
 
 	}
 
@@ -4099,6 +4297,13 @@ func ParseCreateGroupResponse(rsp *http.Response) (*CreateGroupResponse, error) 
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -4247,6 +4452,13 @@ func ParseUpdateGroupResponse(rsp *http.Response) (*UpdateGroupResponse, error) 
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -4300,6 +4512,13 @@ func ParseDeleteGroupFromUserResponse(rsp *http.Response) (*DeleteGroupFromUserR
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
@@ -4402,6 +4621,13 @@ func ParseAttachGroupToUserResponse(rsp *http.Response) (*AttachGroupToUserRespo
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -4462,6 +4688,13 @@ func ParsePermitGroupUserResponse(rsp *http.Response) (*PermitGroupUserResponse,
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
@@ -4563,6 +4796,13 @@ func ParseUpdateProfileResponse(rsp *http.Response) (*UpdateProfileResponse, err
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
@@ -4690,6 +4930,13 @@ func ParseCreateUserResponse(rsp *http.Response) (*CreateUserResponse, error) {
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
@@ -4839,6 +5086,13 @@ func ParseUpdateUserResponse(rsp *http.Response) (*UpdateUserResponse, error) {
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -4892,6 +5146,13 @@ func ParseDeleteUserFromGroupResponse(rsp *http.Response) (*DeleteUserFromGroupR
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
@@ -4994,6 +5255,13 @@ func ParseAttachUserToGroupResponse(rsp *http.Response) (*AttachUserToGroupRespo
 		}
 		response.JSON200 = &dest
 
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -5054,6 +5322,13 @@ func ParsePermitUserGroupResponse(rsp *http.Response) (*PermitUserGroupResponse,
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest BadRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
 		var dest NotAuthorizedError

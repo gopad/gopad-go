@@ -55,8 +55,6 @@
           devenv = {
             shells = {
               default = {
-                name = "gopad-go";
-
                 git-hooks = {
                   hooks = {
                     nixfmt-rfc-style = {

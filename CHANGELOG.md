@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/gopad/gopad-go/compare/v1.6.0...v1.7.0) (2025-04-14)
+
+
+### Features
+
+* upgrade revive and golangci-lint ([ddd1359](https://github.com/gopad/gopad-go/commit/ddd135924d0f51a6d2e54dc5b754b032eaf86f14))
+
 ## [1.6.0](https://github.com/gopad/gopad-go/compare/v1.5.0...v1.6.0) (2025-03-26)
 
 

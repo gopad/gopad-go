@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.8.0](https://github.com/gopad/gopad-go/compare/v1.7.0...v1.8.0) (2025-04-21)
+
+
+### Features
+
+* **deps:** update module github.com/golangci/golangci-lint/v2 to v2.1.1 ([#78](https://github.com/gopad/gopad-go/issues/78)) ([c579937](https://github.com/gopad/gopad-go/commit/c57993759013837da88cc0daaa2642aae9d3d135))
+* **deps:** update module github.com/mgechev/revive to v1.9.0 ([#76](https://github.com/gopad/gopad-go/issues/76)) ([2e1926b](https://github.com/gopad/gopad-go/commit/2e1926b20923a19d618fbc3c2031f281825bcf14))
+
+
+### Bugfixes
+
+* **deps:** update module github.com/golangci/golangci-lint/v2 to v2.1.2 ([#79](https://github.com/gopad/gopad-go/issues/79)) ([fbf1ae3](https://github.com/gopad/gopad-go/commit/fbf1ae376cbdfbb2ac0cbf221a4ec6e93eeff6ae))
+
 ## [1.7.0](https://github.com/gopad/gopad-go/compare/v1.6.0...v1.7.0) (2025-04-14)
 
 

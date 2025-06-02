@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/gopad/gopad-go/compare/v1.8.2...v1.9.0) (2025-06-02)
+
+
+### Features
+
+* **deps:** update module github.com/mgechev/revive to v1.10.0 ([#83](https://github.com/gopad/gopad-go/issues/83)) ([c038a93](https://github.com/gopad/gopad-go/commit/c038a93a24e949a3a7303f59d112fde11ea02455))
+
 ## [1.8.2](https://github.com/gopad/gopad-go/compare/v1.8.1...v1.8.2) (2025-05-05)
 
 

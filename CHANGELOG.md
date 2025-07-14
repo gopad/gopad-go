@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.11.0](https://github.com/gopad/gopad-go/compare/v1.10.0...v1.11.0) (2025-07-14)
+
+
+### Features
+
+* **deps:** update module github.com/mgechev/revive to v1.11.0 ([#88](https://github.com/gopad/gopad-go/issues/88)) ([f40e216](https://github.com/gopad/gopad-go/commit/f40e21672ed7e859e16b1e69e7354f4411fec17c))
+
+
+### Bugfixes
+
+* **deps:** update module github.com/golangci/golangci-lint/v2 to v2.2.2 ([#87](https://github.com/gopad/gopad-go/issues/87)) ([59350e9](https://github.com/gopad/gopad-go/commit/59350e990519999c4acd5da961a3de29438368cc))
+
 ## [1.10.0](https://github.com/gopad/gopad-go/compare/v1.9.0...v1.10.0) (2025-06-30)
 
 

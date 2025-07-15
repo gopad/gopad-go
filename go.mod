@@ -2,7 +2,7 @@ module github.com/gopad/gopad-go
 
 go 1.24.0
 
-require github.com/oapi-codegen/runtime v1.1.1
+require github.com/oapi-codegen/runtime v1.1.2
 
 require (
 	4d63.com/gocheckcompilerdirectives v1.3.0 // indirect

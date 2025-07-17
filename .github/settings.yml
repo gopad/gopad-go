@@ -166,6 +166,9 @@ labels:
   - name: outdated
     color: cccccc
     description: This is out of scope and outdated
+  - name: openapi
+    color: c0c0c0
+    description: Changes related to generated OpenAPI
   - name: tools
     color: 1d76db
     description: Tools updates based on Renovate

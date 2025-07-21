@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.12.0](https://github.com/gopad/gopad-go/compare/v1.11.0...v1.12.0) (2025-07-21)
+
+
+### Features
+
+* automated openapi client update ([94ab773](https://github.com/gopad/gopad-go/commit/94ab773aa2c69548e72e95bd79685343a6ab8e5d))
+* **deps:** update module github.com/oapi-codegen/oapi-codegen/v2 to v2.5.0 ([#90](https://github.com/gopad/gopad-go/issues/90)) ([83d24df](https://github.com/gopad/gopad-go/commit/83d24dfb814a7bdb88ffd7421d0aac00e6fa94e7))
+
+
+### Bugfixes
+
+* **deps:** update module github.com/oapi-codegen/runtime to v1.1.2 ([#89](https://github.com/gopad/gopad-go/issues/89)) ([48b4ea2](https://github.com/gopad/gopad-go/commit/48b4ea26bf5f92bfbf6754f7617c58a8292dffe6))
+
 ## [1.11.0](https://github.com/gopad/gopad-go/compare/v1.10.0...v1.11.0) (2025-07-14)
 
 

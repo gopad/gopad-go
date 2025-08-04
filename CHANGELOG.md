@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/gopad/gopad-go/compare/v1.13.0...v1.13.1) (2025-08-04)
+
+
+### Bugfixes
+
+* **deps:** update module github.com/golangci/golangci-lint/v2 to v2.3.1 ([#93](https://github.com/gopad/gopad-go/issues/93)) ([9235261](https://github.com/gopad/gopad-go/commit/9235261563758d803b23ac50fa54ae158933a397))
+
 ## [1.13.0](https://github.com/gopad/gopad-go/compare/v1.12.0...v1.13.0) (2025-07-28)
 
 

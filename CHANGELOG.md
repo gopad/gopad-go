@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/gopad/gopad-go/compare/v1.14.0...v1.14.1) (2025-11-03)
+
+
+### Bugfixes
+
+* **deps:** update module github.com/oapi-codegen/oapi-codegen/v2 to v2.5.1 ([#105](https://github.com/gopad/gopad-go/issues/105)) ([9049db4](https://github.com/gopad/gopad-go/commit/9049db4eb48cda3a2694f6ebcc8193aef007e7ae))
+
 ## [1.14.0](https://github.com/gopad/gopad-go/compare/v1.13.1...v1.14.0) (2025-08-18)
 
 

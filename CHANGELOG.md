@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/gopad/gopad-go/compare/v1.14.1...v1.15.0) (2025-11-10)
+
+
+### Features
+
+* automated openapi client update ([266b263](https://github.com/gopad/gopad-go/commit/266b263016eb5dd26a342294ea1e71b453786465))
+
 ## [1.14.1](https://github.com/gopad/gopad-go/compare/v1.14.0...v1.14.1) (2025-11-03)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/gopad/gopad-go/compare/v1.15.1...v1.16.0) (2025-12-08)
+
+
+### Features
+
+* **minor:** update module github.com/golangci/golangci-lint/v2 to v2.7.0 ([#117](https://github.com/gopad/gopad-go/issues/117)) ([147e015](https://github.com/gopad/gopad-go/commit/147e015865a68013396f0a7756ad6f3bad1549b0))
+
 ## [1.15.1](https://github.com/gopad/gopad-go/compare/v1.15.0...v1.15.1) (2025-11-17)
 
 

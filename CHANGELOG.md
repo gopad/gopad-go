@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.17.0](https://github.com/gopad/gopad-go/compare/v1.16.0...v1.17.0) (2026-03-02)
+
+### Dependencies
+
+* **minor:** update module github.com/oapi-codegen/runtime to v1.2.0 ([#127](https://github.com/gopad/gopad-go/issues/127)) ([04d3319](https://github.com/gopad/gopad-go/commit/04d3319b6d349ac805429bb9e476b375edb3c385))
+
+### Miscellaneous
+
+* add initial revive config ([e141763](https://github.com/gopad/gopad-go/commit/e14176382ba3f453cb95261633c90a9d9c1bcd0a))
+* **flake:** updated lockfile [skip ci] ([958099c](https://github.com/gopad/gopad-go/commit/958099c27d01fe8465bb5a613f3092cc8527a5d5))
+* **flake:** updated lockfile [skip ci] ([f0698a9](https://github.com/gopad/gopad-go/commit/f0698a9487bed5da9d23fcc406c8cf114760446d))
+* **flake:** updated lockfile [skip ci] ([9145ff6](https://github.com/gopad/gopad-go/commit/9145ff67fe97b42e35deed9455b83e3f9896ecbb))
+* **flake:** updated lockfile [skip ci] ([37ab7b2](https://github.com/gopad/gopad-go/commit/37ab7b2ba5df74e35e3dc13d460c7a5b584e499f))
+* **flake:** updated lockfile [skip ci] ([f9c2479](https://github.com/gopad/gopad-go/commit/f9c2479b240bf9afebb56be4eaf4747699d8e937))
+* **flake:** updated lockfile [skip ci] ([e1a941e](https://github.com/gopad/gopad-go/commit/e1a941e8c055f139d793b7a62c35398fdbd7a1b6))
+* **flake:** updated lockfile [skip ci] ([3fb3361](https://github.com/gopad/gopad-go/commit/3fb3361fdaef12b96161c6f89b78622bd0e5cfa2))
+* **flake:** updated lockfile [skip ci] ([d046cb6](https://github.com/gopad/gopad-go/commit/d046cb6f14841ae7de6577a4272620f0fd7a9cdd))
+* **flake:** updated lockfile [skip ci] ([308b08f](https://github.com/gopad/gopad-go/commit/308b08f4fe7001421df4cb3c115339082e0ab981))
+* **flake:** updated lockfile [skip ci] ([995a010](https://github.com/gopad/gopad-go/commit/995a010a8b1b6a90af8b451c285f00f4b13bc33c))
+* **flake:** updated lockfile [skip ci] ([64e34e4](https://github.com/gopad/gopad-go/commit/64e34e44cec9d965a8720b0c97cab994e5746f87))
+* replace nixfmt package and use go 1.25 ([bd20552](https://github.com/gopad/gopad-go/commit/bd20552ff219cef74716789011689bbff9e56279))
+
 ## [1.16.0](https://github.com/gopad/gopad-go/compare/v1.15.1...v1.16.0) (2025-12-08)
 
 

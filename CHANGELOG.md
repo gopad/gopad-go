@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.18.0](https://github.com/gopad/gopad-go/compare/v1.17.0...v1.18.0) (2026-03-09)
+
+### Features
+
+* automated openapi client update ([6bb6fa0](https://github.com/gopad/gopad-go/commit/6bb6fa04b9f03440a91fdd0a83c334129a200051))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([e5d69c5](https://github.com/gopad/gopad-go/commit/e5d69c5a2ad1012bfdb90cd9b27a3dc69420b613))
+
 ## [1.17.0](https://github.com/gopad/gopad-go/compare/v1.16.0...v1.17.0) (2026-03-02)
 
 ### Dependencies

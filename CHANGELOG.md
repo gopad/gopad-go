@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.21.1](https://github.com/gopad/gopad-go/compare/v1.21.0...v1.21.1) (2026-05-25)
+
+### Dependencies
+
+* **patch:** update module github.com/oapi-codegen/runtime to v1.4.1 ([#142](https://github.com/gopad/gopad-go/issues/142)) ([1c81394](https://github.com/gopad/gopad-go/commit/1c81394d4c294e8cedbd8d90d1a1be63c8fee105))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([d58d093](https://github.com/gopad/gopad-go/commit/d58d093b935c746417774868175daf4fa0ae2d01))
+* **flake:** updated lockfile [skip ci] ([bd6e156](https://github.com/gopad/gopad-go/commit/bd6e15666780f895390ea9e3d7853f3e616a6eb3))
+
 ## [1.21.0](https://github.com/gopad/gopad-go/compare/v1.20.0...v1.21.0) (2026-05-11)
 
 ### Features

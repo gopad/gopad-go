@@ -1,5 +1,4 @@
-.direnv/
-.devenv/
+mise.local.toml
 
+.task/
 coverage.out
-.pre-commit-config.yaml

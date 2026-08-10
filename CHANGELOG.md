@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.26.0](https://github.com/gopad/gopad-go/compare/v1.25.0...v1.26.0) (2026-08-10)
+
+### Features
+
+* restructure repo and build processes ([664ccbe](https://github.com/gopad/gopad-go/commit/664ccbebdd164bc1dfee2df94e44fc1695d5c3d1))
+
 ## [1.25.0](https://github.com/gopad/gopad-go/compare/v1.24.0...v1.25.0) (2026-07-27)
 
 ## [1.24.0](https://github.com/gopad/gopad-go/compare/v1.23.0...v1.24.0) (2026-07-20)

@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.27.0](https://github.com/gopad/gopad-go/compare/v1.26.0...v1.27.0) (2026-08-17)
+
+### Dependencies
+
+* **minor:** update module github.com/oapi-codegen/runtime to v1.7.0 ([#159](https://github.com/gopad/gopad-go/issues/159)) ([d3eb1dc](https://github.com/gopad/gopad-go/commit/d3eb1dce0db3f157f7d61a9efceb48673293a08a))
+* **patch:** update dependency go to v1.26.6 ([#158](https://github.com/gopad/gopad-go/issues/158)) ([0bd66d3](https://github.com/gopad/gopad-go/commit/0bd66d36dadedb3546e4fc5567758be6e83262e8))
+* **patch:** update dependency pre-commit to v4.6.2 ([#157](https://github.com/gopad/gopad-go/issues/157)) ([2092ed8](https://github.com/gopad/gopad-go/commit/2092ed83eec2627b5dc799af33f2aba1b8145d52))
+
 ## [1.26.0](https://github.com/gopad/gopad-go/compare/v1.25.0...v1.26.0) (2026-08-10)
 
 ### Features

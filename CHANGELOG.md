@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.28.0](https://github.com/gopad/gopad-go/compare/v1.27.0...v1.28.0) (2026-08-31)
+
+### Dependencies
+
+* **minor:** update dependency go to v1.27.0 ([#161](https://github.com/gopad/gopad-go/issues/161)) ([b7fc5bd](https://github.com/gopad/gopad-go/commit/b7fc5bd387d1616c73ada8f906b2db67f0fed95c))
+* **minor:** update dependency golangci-lint to v2.13.0 ([#162](https://github.com/gopad/gopad-go/issues/162)) ([2d010ca](https://github.com/gopad/gopad-go/commit/2d010ca9c104a2f564286b89a2733dd680a26af0))
+* **minor:** update dependency goreleaser to v2.18.0 ([#164](https://github.com/gopad/gopad-go/issues/164)) ([64a4c06](https://github.com/gopad/gopad-go/commit/64a4c060f5b07d7c7b844ab136386dbdab49cca8))
+* **minor:** update dependency task to v3.53.1 ([#160](https://github.com/gopad/gopad-go/issues/160)) ([cb7d8a1](https://github.com/gopad/gopad-go/commit/cb7d8a1b7361f5b86e48740bc6dc11ea62b3e6a2))
+* **patch:** update dependency golangci-lint to v2.13.1 ([#163](https://github.com/gopad/gopad-go/issues/163)) ([5e848af](https://github.com/gopad/gopad-go/commit/5e848af67cc129fa3139ab1ae0703dc8569d470e))
+* **patch:** update dependency golangci-lint to v2.13.2 ([#166](https://github.com/gopad/gopad-go/issues/166)) ([373570b](https://github.com/gopad/gopad-go/commit/373570bfb9acba34e10d08edfa7354a9e6e87aa5))
+
 ## [1.27.0](https://github.com/gopad/gopad-go/compare/v1.26.0...v1.27.0) (2026-08-17)
 
 ### Dependencies

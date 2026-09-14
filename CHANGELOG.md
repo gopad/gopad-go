@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.28.1](https://github.com/gopad/gopad-go/compare/v1.28.0...v1.28.1) (2026-09-14)
+
+### Dependencies
+
+* **mise:** update dependency prek to v0.5.3 ([#170](https://github.com/gopad/gopad-go/issues/170)) ([4635b5d](https://github.com/gopad/gopad-go/commit/4635b5d8eef31617313729e95046b353e44e5542))
+* **patch:** update dependency go to v1.27.1 ([#168](https://github.com/gopad/gopad-go/issues/168)) ([de9cb73](https://github.com/gopad/gopad-go/commit/de9cb739bc8334a7200f5b59fd99d8b26ddba8a2))
+* **patch:** update dependency goreleaser to v2.18.1 ([#169](https://github.com/gopad/gopad-go/issues/169)) ([3477574](https://github.com/gopad/gopad-go/commit/347757435bd75864ffd7765c9688540381efb2b9))
+
 ## [1.28.0](https://github.com/gopad/gopad-go/compare/v1.27.0...v1.28.0) (2026-08-31)
 
 ### Dependencies

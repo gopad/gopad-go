@@ -30,12 +30,12 @@ tasks:
       PACKAGES:
         sh: go list ./... | xargs echo
     cmds:
-      - for PKG in {{ .PACKAGES }}; do go tool github.com/mgechev/revive -config revive.toml -set_exit_status $PKG || exit 1; done;
+      - for PKG in {{ .PACKAGES }}; do revive -config revive.toml -set_exit_status $PKG || exit 1; done;
 
   golangci:
     desc: Run golangci linter
     cmds:
-      - go tool github.com/golangci/golangci-lint/v2/cmd/golangci-lint run ./...
+      - golangci-lint run ./...
 
   generate:
     desc: Generate code
@@ -48,7 +48,7 @@ tasks:
   openapi:
     desc: Generate client
     cmds:
-      - go tool github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen -templates hack/templates/ -generate types,client -package gopad -o gopad/gen.go https://dl.gopad.eu/openapi/{{ .SPEC_VERSION }}.yaml
+      - oapi-codegen -templates hack/templates/ -generate types,client -package gopad -o gopad/gen.go https://dl.gopad.eu/openapi/{{ .SPEC_VERSION }}.yaml
     vars:
       SPEC_VERSION: 1.0.0-alpha1
 

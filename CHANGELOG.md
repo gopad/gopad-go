@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.29.0](https://github.com/gopad/gopad-go/compare/v1.28.1...v1.29.0) (2026-10-26)
+
+### Features
+
+* automated openapi client update ([48829a3](https://github.com/gopad/gopad-go/commit/48829a356b60c40d8c2b07359fe362cbd1f0fc06))
+
+### Dependencies
+
+* **minor:** update module github.com/oapi-codegen/runtime to v1.8.0 ([#189](https://github.com/gopad/gopad-go/issues/189)) ([03154b8](https://github.com/gopad/gopad-go/commit/03154b83977ef69be8def2425b878e664db544a1))
+* **mise:** update dependency go to v1.27.2 ([#181](https://github.com/gopad/gopad-go/issues/181)) ([ca94aa2](https://github.com/gopad/gopad-go/commit/ca94aa2765f204462eca90507db61084fddb2b05))
+* **mise:** update dependency go to v1.27.3 ([#186](https://github.com/gopad/gopad-go/issues/186)) ([bc41b4d](https://github.com/gopad/gopad-go/commit/bc41b4de55f07cd15712694c66d6e486256dfea7))
+* **mise:** update dependency golangci-lint to v2.14.0 ([#174](https://github.com/gopad/gopad-go/issues/174)) ([fc67dc1](https://github.com/gopad/gopad-go/commit/fc67dc1fd3109515bb2840aa98217f4d8b50d735))
+* **mise:** update dependency golangci-lint to v2.15.0 ([#183](https://github.com/gopad/gopad-go/issues/183)) ([0b4f672](https://github.com/gopad/gopad-go/commit/0b4f6721a42954992895e2ff6873b363b25ae990))
+* **mise:** update dependency goreleaser to v2.18.2 ([#172](https://github.com/gopad/gopad-go/issues/172)) ([1b12e3f](https://github.com/gopad/gopad-go/commit/1b12e3f08028cbad5e3056f4b39ca21bd117af09))
+* **mise:** update dependency goreleaser to v2.18.3 ([#182](https://github.com/gopad/gopad-go/issues/182)) ([c84a207](https://github.com/gopad/gopad-go/commit/c84a207f8f034bf42230d200fed205f4b9cf2927))
+* **mise:** update dependency goreleaser to v2.19.0 ([#188](https://github.com/gopad/gopad-go/issues/188)) ([5731c02](https://github.com/gopad/gopad-go/commit/5731c02ad976e55c6b907fbd7e894f0fde5682d3))
+* **mise:** update dependency prek to v0.5.4 ([#176](https://github.com/gopad/gopad-go/issues/176)) ([2b18f4e](https://github.com/gopad/gopad-go/commit/2b18f4eaac3c27db8312234fce54a866f4cab455))
+* **mise:** update dependency prek to v0.5.5 ([#179](https://github.com/gopad/gopad-go/issues/179)) ([cfabe62](https://github.com/gopad/gopad-go/commit/cfabe62af65f8e50681fab77006a6ff91154a93a))
+* **mise:** update dependency prek to v0.5.6 ([#185](https://github.com/gopad/gopad-go/issues/185)) ([8906a5d](https://github.com/gopad/gopad-go/commit/8906a5da4d14472dc1d33d4c22ee266953cb604a))
+* **mise:** update dependency prek to v0.5.7 ([#187](https://github.com/gopad/gopad-go/issues/187)) ([ec68483](https://github.com/gopad/gopad-go/commit/ec68483b3aed8f886c30457971a68fdbfd4558dd))
+* **mise:** update dependency task to v3.54.0 ([#178](https://github.com/gopad/gopad-go/issues/178)) ([a760715](https://github.com/gopad/gopad-go/commit/a760715c174a509a773dbdfbb57eec679ba83d55))
+* **mise:** update module go:github.com/golangci/golangci-lint/v2/cmd/golangci-lint to v2.14.0 ([#175](https://github.com/gopad/gopad-go/issues/175)) ([07f876e](https://github.com/gopad/gopad-go/commit/07f876e07526c2a5b761060b5e4f2e747a0811b4))
+* **mise:** update module go:github.com/golangci/golangci-lint/v2/cmd/golangci-lint to v2.15.0 ([#184](https://github.com/gopad/gopad-go/issues/184)) ([3d289dd](https://github.com/gopad/gopad-go/commit/3d289dd3f5aafcaccfb203655e9b2c70ed8b20b8))
+* **mise:** update module go:github.com/mgechev/revive to v1.17.0 ([#173](https://github.com/gopad/gopad-go/issues/173)) ([bed4ae6](https://github.com/gopad/gopad-go/commit/bed4ae695fc409bb94b00d8a8a06357b9a46842f))
+* **mise:** update module go:github.com/mgechev/revive to v1.17.1 ([#180](https://github.com/gopad/gopad-go/issues/180)) ([6f3b69c](https://github.com/gopad/gopad-go/commit/6f3b69c028c3627dfe2beace67547c55c107215a))
+* **mise:** update module go:github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen to v2.8.1 ([#190](https://github.com/gopad/gopad-go/issues/190)) ([d8473e0](https://github.com/gopad/gopad-go/commit/d8473e02ba1c5f927f62b2ec5e48420f53cc868e))
+
 ## [1.28.1](https://github.com/gopad/gopad-go/compare/v1.28.0...v1.28.1) (2026-09-14)
 
 ### Dependencies

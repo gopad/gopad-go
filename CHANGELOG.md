@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.30.0](https://github.com/gopad/gopad-go/compare/v1.29.0...v1.30.0) (2026-11-02)
+
+### Features
+
+* automated openapi client update ([2059faa](https://github.com/gopad/gopad-go/commit/2059faa4f50632fdb5db13af67bdc6a631cea516))
+
+### Dependencies
+
+* **mise:** update dependency prek to v0.5.9 ([#193](https://github.com/gopad/gopad-go/issues/193)) ([626a45e](https://github.com/gopad/gopad-go/commit/626a45e146448139126f2cf8e7d45a16e37734ec))
+* **mise:** update module go:github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen to v2.8.2 ([#194](https://github.com/gopad/gopad-go/issues/194)) ([d6002e2](https://github.com/gopad/gopad-go/commit/d6002e2263a8b0fdaa40e4efcdd92c53ba0a2d1c))
+* **mise:** update node.js to v26 ([#192](https://github.com/gopad/gopad-go/issues/192)) ([7464a8c](https://github.com/gopad/gopad-go/commit/7464a8c63f4b8b4577c03731e30159e53832290d))
+
 ## [1.29.0](https://github.com/gopad/gopad-go/compare/v1.28.1...v1.29.0) (2026-10-26)
 
 ### Features

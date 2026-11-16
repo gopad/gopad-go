@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.31.0](https://github.com/gopad/gopad-go/compare/v1.30.0...v1.31.0) (2026-11-16)
+
+* automated release update [skip ci] ([6228452](https://github.com/gopad/gopad-go/commit/6228452ec5d7c57267ec6e057cae89d1709a26e4))
+
+### Dependencies
+
+* **minor:** update module github.com/oapi-codegen/runtime to v1.9.0 ([#199](https://github.com/gopad/gopad-go/issues/199)) ([c9dbcbd](https://github.com/gopad/gopad-go/commit/c9dbcbda40bd8b543a2b528f669442af8cda24bd))
+* **mise:** update dependency go to v1.27.4 ([#198](https://github.com/gopad/gopad-go/issues/198)) ([e9f8aea](https://github.com/gopad/gopad-go/commit/e9f8aea00b0e297592e56ff4762b7c2cbb0b67b4))
+* **mise:** update dependency goreleaser to v2.20.0 ([#197](https://github.com/gopad/gopad-go/issues/197)) ([20f8107](https://github.com/gopad/gopad-go/commit/20f8107add41316b59aa37497f1e55bd799a88cd))
+* **mise:** update dependency goreleaser to v2.20.1 ([#200](https://github.com/gopad/gopad-go/issues/200)) ([2758d4b](https://github.com/gopad/gopad-go/commit/2758d4bdf2d42a1d5b9e7004c302089cbd447e02))
+* **mise:** update dependency goreleaser to v2.20.2 ([#201](https://github.com/gopad/gopad-go/issues/201)) ([6805d43](https://github.com/gopad/gopad-go/commit/6805d43871cbcd759df5fd7354d077393912fdc1))
+* **mise:** update dependency prek to v0.5.10 ([#196](https://github.com/gopad/gopad-go/issues/196)) ([eb434b1](https://github.com/gopad/gopad-go/commit/eb434b1fd227b903ab969abed177feb9b2cec9ba))
+* **mise:** update dependency prek to v0.5.11 ([#202](https://github.com/gopad/gopad-go/issues/202)) ([3c12239](https://github.com/gopad/gopad-go/commit/3c12239cc2aa4f166a0d9a3b1997599e54c8fb89))
+
 ## [1.30.0](https://github.com/gopad/gopad-go/compare/v1.29.0...v1.30.0) (2026-11-02)
 
 ### Features

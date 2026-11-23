@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.32.0](https://github.com/gopad/gopad-go/compare/v1.31.0...v1.32.0) (2026-11-23)
+
+### Features
+
+* automated openapi client update ([bb1209c](https://github.com/gopad/gopad-go/commit/bb1209c707698b634dcde6eea1e3dc539bc286c6))
+
+### Dependencies
+
+* **mise:** update dependency goreleaser to v2.20.3 ([#203](https://github.com/gopad/gopad-go/issues/203)) ([998ca20](https://github.com/gopad/gopad-go/commit/998ca20b59b609cd8a5907b27d34ad95a9ce8250))
+* **mise:** update module go:github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen to v2.9.0 ([#205](https://github.com/gopad/gopad-go/issues/205)) ([7b011a0](https://github.com/gopad/gopad-go/commit/7b011a02c2e2250ba6cf082de3640a13829b913c))
+* **patch:** update module github.com/oapi-codegen/runtime to v1.9.1 ([#204](https://github.com/gopad/gopad-go/issues/204)) ([82a03a1](https://github.com/gopad/gopad-go/commit/82a03a1a63b9fea4d260624c66a3d3ce48e7f664))
+
 ## [1.31.0](https://github.com/gopad/gopad-go/compare/v1.30.0...v1.31.0) (2026-11-16)
 
 * automated release update [skip ci] ([6228452](https://github.com/gopad/gopad-go/commit/6228452ec5d7c57267ec6e057cae89d1709a26e4))
